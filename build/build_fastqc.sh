@@ -5,7 +5,7 @@ arg=4
 work=`pwd`
 if  [ $# -lt $arg ]
 then
-	echo 'Usage: sh build_fatqc.sh [executable] [out] [thread] [exp code]'
+	echo 'Usage: sh build_fastqc.sh [executable] [out] [thread] [exp code]'
 	exit
 fi 
 exe=$1
