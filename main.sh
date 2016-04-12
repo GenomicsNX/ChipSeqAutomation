@@ -1,24 +1,21 @@
 #!/bin/bash
-#work dir
+
+#current work directory
 work=`pwd`
-#echo $work
+pid=$$
 
 #init config
-source config/environment.conf
-source config/executable.conf
 source config/input.conf
 source config/output.conf
+
+#number of total experiment
+n=$total
+
 #fastqc
-exe=$work'/'$dir_exe'/'$fastqc
-echo "exe $exe"
-out=$work'/'$dir_out'/'$qc
-echo "out $out"
-thread=10
-echo "thread $thread"
-all=${exp//,/ }
-for code in `echo $all`
+for ((i=1; i<=$n; i++ )) ;
 do
-	sh build/build_fastqc.sh $exe $out $thread $code
+	exp=exp$i
+	sh build/build_fastqc.sh ${!exp}
 done
 
 #trimmomatic 

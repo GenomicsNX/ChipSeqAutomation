@@ -1,40 +1,53 @@
 #!/bin/bash'
 # $$ is the pid of current script running on.
 pid=$$
-arg=4
 work=`pwd`
-if  [ $# -lt $arg ]
+if  [ $# -lt 1 ]
 then
-	echo 'Usage: sh build_fastqc.sh [executable] [out] [thread] [exp code]'
+	echo 'Usage: sh build_fastqc.sh [code]'
 	exit
-fi 
-exe=$1
-out=$2
-thread=$3
-code=$4
-script=script/fastqc_${code}.sh
+fi
 
-source config/input.conf
-source config/exp_${code}.conf
-prefix=${work}'/'${dir_in}'/'${code}'/'
-echo "prefix>>>>>  $prefix"
+#experiment code
+code=$1
+
+#relative path of generated script
+script=script/fastqc_${code}.sh
 rm -rf $script
 touch $script
 chmod 751 $script
+
+#import relative config
+source config/input.conf
+source config/executable.conf
+source config/output.conf
+source config/exp_${code}.conf
+
+#absolute path of experiment data directory
+exp_dir=${work}'/'${dir_in}'/'${code}'/'
+
+#define parameter of what fastqc need
+exe=${work}'/'${dir_exe}'/'${fastqc}
+out=${work}'/'${dir_out}'/'${qc}
+thread=10
+
 #treatment 1
-echo "$exe -o $out -t $thread ${prefix}${treatment_1}" >> $script
-#if is pair_end, treatment 2
-if [ ${pair_end} = 'YES' ]
+echo "$exe -o $out -t $thread ${exp_dir}${treatment_1}" >> $script
+
+#treatment 2
+if [ ${treatment_2} != 'NULL' ]
 then
-	echo "$exe -o $out -t $thread ${prefix}${treatment_2}" >> $script
+	echo "$exe -o $out -t $thread ${exp_dir}${treatment_2}" >> $script
 fi
-#if has control, control_1
-if [ ${has_control} = 'YES' ]
-then 
-	echo "$exe -o $out -t $thread ${prefix}${control_1}" >> $script
-#########if pair_end, control_2
-	if [ ${pair_end} = 'YES' ]
-	then
-		echo "$exe -o $out -t $thread ${prefix}${control_2}" >> $script
-	fi
+
+#control 1
+if [ ${control_1} != 'NULL' ]
+then
+        echo "$exe -o $out -t $thread ${exp_dir}${control_1}" >> $script
+fi
+
+#control 2
+if [ ${control_2} != 'NULL' ]
+then
+        echo "$exe -o $out -t $thread ${exp_dir}${control_2}" >> $script
 fi
