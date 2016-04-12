@@ -31,8 +31,13 @@ exe=${work}'/'${dir_exe}'/'${fastqc}
 out=${work}'/'${dir_out}'/'${qc}
 thread=10
 
+#if out directory not exist, create one
+if [ ! -e $out ]
+then mkdir $out
+fi
+
 #treatment 1
-echo "$exe -o $out -t $thread ${exp_dir}${treatment_1}" >> $script
+echo "$exe -o $out -t $thread ${exp_dir}${treatment_1} " >> $script
 
 #treatment 2
 if [ ${treatment_2} != 'NULL' ]
