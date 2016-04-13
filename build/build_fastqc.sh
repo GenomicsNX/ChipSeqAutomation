@@ -13,9 +13,7 @@ code=$1
 
 #relative path of generated script
 script=script/fastqc_${code}.sh
-rm -rf $script
-touch $script
-chmod 751 $script
+rm -rf $script && touch $script && chmod 751 $script
 
 #import relative config
 source config/input.conf
@@ -38,21 +36,19 @@ fi
 
 #treatment 1
 echo "$exe -o $out -t $thread ${exp_dir}${treatment_1} " >> $script
-
 #treatment 2
-if [ ${treatment_2} != 'NULL' ]
+if [ ${treatment_2} != 'NULL' ] 
 then
 	echo "$exe -o $out -t $thread ${exp_dir}${treatment_2}" >> $script
 fi
-
 #control 1
-if [ ${control_1} != 'NULL' ]
+if [ ${control_1} != 'NULL' ] 
 then
         echo "$exe -o $out -t $thread ${exp_dir}${control_1}" >> $script
 fi
-
 #control 2
-if [ ${control_2} != 'NULL' ]
+if [ ${control_2} != 'NULL' ] 
 then
         echo "$exe -o $out -t $thread ${exp_dir}${control_2}" >> $script
 fi
+echo -e "fastqc scirpt $code generated at: ${work}/$script"

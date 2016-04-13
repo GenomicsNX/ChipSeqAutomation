@@ -1,0 +1,1 @@
+/home/jwman/chipseq-automation/software/bwa-0.7.13/bwa mem /home/jwman/chipseq-automation/output/bwa_idx/zw_2 -t 10 t1_paired.fastq t2_paired.fastq /home/jwman/chipseq-automation/output/bwa_mem/zw_2_t.sam

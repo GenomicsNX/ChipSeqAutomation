@@ -45,7 +45,7 @@ source config/output.conf
 
 #paramter for trimmomatic
 exe=${work}/${dir_exe}/${trimmomatic}
-out=${dir_out}/${trim}
+out=${work}/${dir_out}/${trim}
 
 #absolute path of all input fastq file
 exp_dir=${work}/${dir_in}/${code}
@@ -58,22 +58,22 @@ c2=${exp_dir}/${control_2}
 if [ ${treatment_2} = 'NULL' ]
 then
 	#se mode 
-	echo "$java -jar $exe $t1 ${out}/${code}_${treatment_1} ${param_t} " >> $script
+	echo "$java -jar $exe $t1 ${out}/${code}_t.fastq ${param_t} " >> $script
 else
 	#pe mode
-	echo "$java -jar $exe $t1 $t2 ${out}/${code}_paired_${treatment_1} ${out}/${code}_unpaired_${treatment_1} ${out}/${code}_paired_${treatment_2} ${out}/${code}_unpaired_${treatment_2} ${param_t} " >> $script
+	echo "$java -jar $exe $t1 $t2 ${out}/${code}_t1_paired.fastq ${out}/${code}_t1_unpaired.fastq ${out}/${code}_t2_paired.fastq ${out}/${code}_t2_unpaired.fastq ${param_t} " >> $script
 fi
 
-#control se
+#control
 if [ ${control_1} != 'NULL' ]
 then
 	if [ ${control_2} = 'NULL' ]
 	then
        		 #se mode 
-       		 echo "$java -jar $exe $c1 ${out}/${code}_${control_1} ${param_c} " >> $script
+       		 echo "$java -jar $exe $c1 ${out}/${code}_c.fastq ${param_c} " >> $script
 	else 
 		#pe mode
-       		 echo "$java -jar $exe $c1 $c2 ${out}/${code}_paired_${control_1} ${out}/${code}_unpaired_${control_1} ${out}/${code}_paired_${control_2} ${out}/${code}_unpaired_${control_2} ${param_t} ">> $script
+       		 echo "$java -jar $exe $c1 $c2 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_t} ">> $script
 	fi
 fi
-echo -e "build trimmmomatic.sh complete!\nfile location: ${work}/$script"
+echo -e "trimmomatic script $code generated at: ${work}/$script"

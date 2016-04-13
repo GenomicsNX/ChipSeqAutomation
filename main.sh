@@ -22,6 +22,12 @@ do
 	
 	#generate trimmomatic script
 	sh build/build_trimmomatic.sh $code 23 t_adapter.fa c_adapter.fa #mock 3 parameters, deal later
+	
+	#generate bwa_idx script
+	sh build/build_bwa_idx.sh $code
+
+	#generate bwa_mem script
+	sh build/build_bwa_mem.sh $code 
 done
 
-#trimmomatic 
+echo ">>>>Hooray!<<<<< All job script generated successfully."
