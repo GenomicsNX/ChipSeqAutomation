@@ -31,12 +31,12 @@ idx=${work}/${dir_out}/${bwa_idx}/$code
 
 #input file name, from previous step, trimmomatic
 comm_prefix=${work}/${dir_out}/${trim}/${code}_
-t=t.fastq
-c=c.fastq
-t1=t1_paired.fastq
-t2=t2_paired.fastq
-c1=c1_paired.fastq
-c2=c2_paired.fastq
+t=${comm_prefix}t.fastq
+c=${comm_prefix}c.fastq
+t1=${comm_prefix}t1_paired.fastq
+t2=${comm_prefix}t2_paired.fastq
+c1=${comm_prefix}c1_paired.fastq
+c2=${comm_prefix}c2_paired.fastq
 
 #output file name
 t_sam=${work}/${dir_out}/${bwa_mem}/${code}_t.sam

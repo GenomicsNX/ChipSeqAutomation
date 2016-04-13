@@ -25,7 +25,7 @@ source config/executable.conf
 
 #paramter to run script
 exe=${work}/${dir_exe}/${samtools}
-in=${work}/${dir_out}/${sam2bam}
+in=${work}/${dir_out}/${sam_bam}
 out=${work}/${dir_out}/${bam_sort}
 
 #generate script
@@ -33,9 +33,10 @@ script=script/${code}_bam_sort.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #add info into script
-for n in ${code}_*.sam.bam
+for n in ${in}/${code}_*.sam.bam
 do
-	echo "$exe sort ${in}/${n} ${out}/${n}_sorted " >> $script
+	file=${n##*/}
+	echo "$exe sort ${in}/${file} ${out}/${file}_sorted " >> $script
 done
 
 #output complete info
