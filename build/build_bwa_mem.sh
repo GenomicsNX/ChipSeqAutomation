@@ -1,5 +1,11 @@
 #!/bin/bash
-#bulid alignment script using command bwa mem 
+#title  build_bwa_mem.sh
+#author j1angvei
+#date   20160413
+#usage  do alignment work for fastq file using bwa mem
+#==========================================================================================
+
+#init paramter
 pid=$$
 work=`pwd`
 
@@ -37,7 +43,7 @@ t_sam=${work}/${dir_out}/${bwa_mem}/${code}_t.sam
 c_sam=${work}/${dir_out}/${bwa_mem}/${code}_c.sam
 
 #generate script
-script=script/bwa_mem_${code}.sh
+script=script/${code}_bwa_mem.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #treatment
@@ -53,7 +59,7 @@ fi
 #control
 if [ ${control_1} != 'NULL' ]
 then
-	if [ ${control_2} ='NULL' ]
+	if [ ${control_2} = 'NULL' ]
 	then
 		#se
 		echo "$exe mem $idx -t $thread $c ${c_sam} " >> $script

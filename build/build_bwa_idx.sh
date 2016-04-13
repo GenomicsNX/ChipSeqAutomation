@@ -1,5 +1,11 @@
 #!/bin/bash
-#generate bwa idx script.
+#title  build_bwa_idx.sh
+#author j1angvei
+#date   20160412
+#usage  generate index for reference genome using bwa idx
+#==========================================================================================
+
+#init parameter
 pid=$$
 work=`pwd`
 
@@ -30,10 +36,10 @@ prefix=${work}/${dir_out}/${code}
 ref=${work}/${dir_gen}/${reference}
 
 #build script
-script=script/bwa_idx_${code}.sh
+script=script/${code}_bwa_idx_.sh
 rm -rf $script && touch $script && chmod 751 $script
 echo "$exe index -p $prefix $ref" >> $script
 
 #complete message
-echo -e "bwa idx script $code generated at $work/$script"
+echo -e ">>>>>> Complete <<<<<< bwa idx script $code generated at $work/${scripit} \n"
 

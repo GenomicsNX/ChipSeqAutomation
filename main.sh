@@ -28,6 +28,13 @@ do
 
 	#generate bwa_mem script
 	sh build/build_bwa_mem.sh $code 
+
+	#generate sam2bam script
+	sh build/build_sam2bam.sh $code
+
+	#generate bam_sort script
+	sh build/build_bam_sort.sh $code
+
 done
 
 echo ">>>>Hooray!<<<<< All job script generated successfully."

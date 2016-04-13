@@ -1,7 +1,13 @@
 #!/bin/bash
-# Generate script running trimmomatic job.
+#title  build_trimmomatic.sh
+#author j1angvei
+#date   20160412
+#usage  data filter for fastq file using trimmomatic.jar
 # Input parameter as exe, pe/se, -threads thread, R1.fastq (R2.fastq) R1_paried.fastq R1_unpaired.fastq (R2_paired.fastq R2_unpaired.fastq)
 # Other parameter, ILLUMINACLIP:/path/TruSeq5-PE.fa:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 MINLEN:50
+#==========================================================================================
+
+#init parameter
 pid=$$
 work=`pwd`
 #check input parameter
@@ -31,7 +37,7 @@ param_c="ILLUMINACLIP:${4}:2:30:10 $param"
 fi
 
 #generate script
-script=script/trimmomatic_${code}.sh
+script=script/${code}_trimmomatic.sh
 rm -rf $script
 touch $script
 chmod 751 $script
@@ -76,4 +82,5 @@ then
        		 echo "$java -jar $exe $c1 $c2 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_t} ">> $script
 	fi
 fi
-echo -e "trimmomatic script $code generated at: ${work}/$script"
+#output complete info	
+echo -e ">>>>> Complete <<<<<<  trimmomatic script $code generated at: ${work}/$script \n"

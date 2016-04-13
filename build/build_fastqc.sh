@@ -1,5 +1,10 @@
-#!/bin/bash'
-# $$ is the pid of current script running on.
+#!/bin/bash
+#title  build_fastqc.sh
+#author j1angvei
+#date   20160412
+#usage  do quality control assessment for fastq file, using fastq
+#===============================================================
+
 pid=$$
 work=`pwd`
 if  [ $# -lt 1 ]
@@ -11,8 +16,8 @@ fi
 #experiment code
 code=$1
 
-#relative path of generated script
-script=script/fastqc_${code}.sh
+#generate script
+script=script/${code}_fastqc.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #import relative config
@@ -51,4 +56,6 @@ if [ ${control_2} != 'NULL' ]
 then
         echo "$exe -o $out -t $thread ${exp_dir}${control_2}" >> $script
 fi
-echo -e "fastqc scirpt $code generated at: ${work}/$script"
+
+#output complete info
+echo -e ">>>>>>>> Complete <<<<<<<, fastqc script generate at: ${work}/${script} \n"
