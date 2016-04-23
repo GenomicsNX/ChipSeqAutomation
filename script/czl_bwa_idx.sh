@@ -1,1 +1,1 @@
-/home/jwman/chipseq-automation/software/bwa-0.7.13/bwa index -p /home/jwman/chipseq-automation/output/bwa_idx/czl /home/jwman/chipseq-automation/genome/all.fasta
+/home/jwman/ChipSeqAutomation/software/bwa-0.7.13/bwa index -p /home/jwman/ChipSeqAutomation/output/bwa_idx/czl /home/jwman/ChipSeqAutomation/genome/all.fasta
