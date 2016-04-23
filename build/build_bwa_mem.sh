@@ -6,18 +6,18 @@
 #==========================================================================================
 
 #init paramter
-pid=$$
 work=`pwd`
 
 #check if  input parameter is correct
-if [ $# -lt 1 ]
+if [ $# -lt 2 ]
 then
-	echo "Usage: sh script [code]"
+	echo "Usage: sh build_bwa_mem.sh [code] [thread]"
 	exit
 fi
 
 #experiment code
 code=$1
+thread=$2
 
 #import config
 source config/executable.conf
@@ -26,7 +26,6 @@ source config/exp_${code}.conf
 
 #parametr to do bwa mem
 exe=${work}/${dir_exe}/${bwa}
-thread=10
 idx=${work}/${dir_out}/${bwa_idx}/$code
 
 #input file name, from previous step, trimmomatic
@@ -68,4 +67,4 @@ then
 		echo "$exe men $idx -t $thread $c1 $c2 ${c_sam}" >> $script
 	fi
 fi
-echo -e ">>>>Complete!<<<<<, $code bwa mem script generated at: ${work}/${script} \n"
+echo -e ">>>>>Script generated at: ${work}/${script} \n"

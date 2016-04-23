@@ -5,17 +5,16 @@
 #usage  do quality control assessment for fastq file, using fastq
 #===============================================================
 
-pid=$$
 work=`pwd`
-if  [ $# -lt 1 ]
+if  [ $# -lt 2 ]
 then
-	echo 'Usage: sh build_fastqc.sh [code]'
+	echo 'Usage: sh build_fastqc.sh [code] [thread]'
 	exit
 fi
 
 #experiment code
 code=$1
-
+thread=$2
 #generate script
 script=script/${code}_fastqc.sh
 rm -rf $script && touch $script && chmod 751 $script
@@ -32,7 +31,6 @@ exp_dir=${work}'/'${dir_in}'/'${code}'/'
 #define parameter of what fastqc need
 exe=${work}'/'${dir_exe}'/'${fastqc}
 out=${work}'/'${dir_out}'/'${qc}
-thread=10
 
 #if out directory not exist, create one
 if [ ! -e $out ]
@@ -58,4 +56,4 @@ then
 fi
 
 #output complete info
-echo -e ">>>>>>>> Complete <<<<<<<, fastqc script generate at: ${work}/${script} \n"
+echo -e ">>>>>Script generate at: ${work}/${script} \n"

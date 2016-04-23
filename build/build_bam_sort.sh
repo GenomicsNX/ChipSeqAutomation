@@ -6,13 +6,12 @@
 #===============================================================
 
 #init parametr
-pid=$$
 work=`pwd`
 
 #check input parameter if correct
 if [ $# -lt 1 ]
 then
-	echo 'Usage: sh script [code] '
+	echo 'Usage: sh build_bam_sort.sh [code] '
 	exit
 fi
 
@@ -40,4 +39,4 @@ do
 done
 
 #output complete info
-echo -e ">>>>>>>>Complete<<<<<<<<< bam_sort script $code generated at: ${work}/${script} \n"
+echo -e ">>>>>Script generated at: ${work}/${script} \n"

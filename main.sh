@@ -10,6 +10,9 @@ source config/output.conf
 
 #number of total experiment
 n=$total
+thread=10
+ph_min_len=PLACEHOLER_MIN_LEN
+ph_phred=PLACEHOLER_PHRED
 
 #generate script for all experiments
 for ((i=1; i<=$n; i++ )) ;
@@ -18,16 +21,16 @@ do
 	code=${!exp}
 	
 	#generate fastqc script
-	sh build/build_fastqc.sh $code
+	sh build/build_fastqc.sh $code $thread
 	
 	#generate trimmomatic script
-	sh build/build_trimmomatic.sh $code 23 t_adapter.fa c_adapter.fa #mock 3 parameters, deal later
+	sh build/build_trimmomatic.sh $code $thread ${ph_min_len} ${ph_phred}
 	
 	#generate bwa_idx script
 	sh build/build_bwa_idx.sh $code
 
 	#generate bwa_mem script
-	sh build/build_bwa_mem.sh $code 
+	sh build/build_bwa_mem.sh $code $thread
 
 	#generate sam2bam script
 	sh build/build_sam2bam.sh $code
@@ -35,6 +38,9 @@ do
 	#generate bam_sort script
 	sh build/build_bam_sort.sh $code
 
+	#generate macs script
+	sh build/build_macs.sh $code
+
 done
 
-echo ">>>>Hooray!<<<<< All job script generated successfully."
+echo "<<<<<All job scripts generated successfully."

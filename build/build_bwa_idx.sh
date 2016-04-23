@@ -6,7 +6,6 @@
 #==========================================================================================
 
 #init parameter
-pid=$$
 work=`pwd`
 
 #test if parameter was correct 
@@ -19,27 +18,24 @@ fi
 #experiment code
 code=$1
 
+#import experiment to retrieve $species
+source config/exp_${code}.conf
+
 #import config
-source config/genome.conf
+source config/genome_${species}.conf
 source config/executable.conf
 source config/output.conf
 
-#check if should use default genome, if no, overvide the default
-if [ -e config/genome_${code}.conf ]
-then
-	source config/genome_${code}.conf
-fi
-
 #assebmle parameter to run bwa idx
 exe=${work}/${dir_exe}/${bwa}
-prefix=${work}/${dir_out}/${code}
+prefix=${work}/${dir_out}/${bwa_idx}/${code}
 ref=${work}/${dir_gen}/${reference}
 
 #build script
-script=script/${code}_bwa_idx_.sh
+script=script/${code}_bwa_idx.sh
 rm -rf $script && touch $script && chmod 751 $script
 echo "$exe index -p $prefix $ref" >> $script
 
 #complete message
-echo -e ">>>>>> Complete <<<<<< bwa idx script $code generated at $work/${scripit} \n"
+echo -e ">>>>>Script generated at $work/${script} \n"
 

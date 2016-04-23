@@ -6,7 +6,6 @@
 #==========================================================================================
 
 #init parameter
-pid=$$
 work=`pwd`
 
 #check parameter of input
@@ -41,4 +40,4 @@ done
 cd $work
 
 #output complete info
-echo -e ">>>>>Complete<<<<<< sam2bam script $code generated at: ${work}/${script} \n"
+echo -e ">>>>>Script generated at: ${work}/${script} \n"
