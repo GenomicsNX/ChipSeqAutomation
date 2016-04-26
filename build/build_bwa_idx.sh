@@ -11,15 +11,12 @@ work=`pwd`
 #test if parameter was correct 
 if [ $# -lt 1 ]
 then
-	echo "Usage: sh script.sh  [code] "
+	echo "Usage: sh script.sh  [species] "
 	exit
 fi
 
-#experiment code
-code=$1
-
-#import experiment to retrieve $species
-source config/exp_${code}.conf
+#experiment species
+species=$1
 
 #import config
 source config/genome_${species}.conf
@@ -30,6 +27,20 @@ source config/output.conf
 exe=${work}/${dir_exe}/${bwa}
 prefix=${work}/${dir_out}/${bwa_idx}/${code}
 ref=${work}/${dir_gen}/${reference}
+
+#create directory if not exist
+if [ ! -e ${dir_out} ]
+then
+	mkdir ${dir_out}
+fi
+
+sub=${dir_out}/${bwa_idx}
+if [ ! -e $sub ]
+then
+	mkdir $sub
+fi
+
+
 
 #build script
 script=script/${code}_bwa_idx.sh

@@ -1,2 +1,2 @@
-/home/jwman/ChipSeqAutomation/software/FastQC/fastqc -o /home/jwman/ChipSeqAutomation/output/qc -t 10 /home/jwman/ChipSeqAutomation/input/zw_w2/2_R1.fastq 
-/home/jwman/ChipSeqAutomation/software/FastQC/fastqc -o /home/jwman/ChipSeqAutomation/output/qc -t 10 /home/jwman/ChipSeqAutomation/input/zw_w2/2_R2.fastq
+/home/jwman/chipseq-automation/software/FastQC/fastqc -o /home/jwman/chipseq-automation/output/qc -t 10 /home/jwman/chipseq-automation/input/zw_w2/W2_TGACCA_L004_R1_001.fastq 
+/home/jwman/chipseq-automation/software/FastQC/fastqc -o /home/jwman/chipseq-automation/output/qc -t 10 /home/jwman/chipseq-automation/input/zw_w2/W2_TGACCA_L004_R2_001.fastq

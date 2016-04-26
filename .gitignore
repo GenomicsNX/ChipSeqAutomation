@@ -1,4 +1,4 @@
 #ingore genome, input , output
-genome/
-input/
-output/
+/genome
+/input
+/output

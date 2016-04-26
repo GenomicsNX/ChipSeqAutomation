@@ -23,10 +23,11 @@ thread=$2
 source config/executable.conf
 source config/output.conf
 source config/exp_${code}.conf
+source config/genome_${species}.conf
 
 #parametr to do bwa mem
 exe=${work}/${dir_exe}/${bwa}
-idx=${work}/${dir_out}/${bwa_idx}/$code
+idx=${work}/${dir_out}/${bwa_idx}/${species}
 
 #input file name, from previous step, trimmomatic
 comm_prefix=${work}/${dir_out}/${trim}/${code}_
