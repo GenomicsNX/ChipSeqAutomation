@@ -9,44 +9,34 @@
 work=`pwd`
 
 #test if parameter was correct 
-if [ $# -lt 1 ]
+if [ $# -lt 2 ]
 then
-	echo "Usage: sh script.sh  [species] "
+	echo "Usage: sh script.sh  [species number] [genome reference file] "
 	exit
 fi
 
-#experiment species
-species=$1
-
 #import config
-source config/genome_${species}.conf
 source config/executable.conf
-source config/output.conf
+source config/directory.conf
 
 #assebmle parameter to run bwa idx
 exe=${work}/${dir_exe}/${bwa}
-prefix=${work}/${dir_out}/${bwa_idx}/${code}
-ref=${work}/${dir_gen}/${reference}
+#using species number as prefix
+prefix=${work}/${dir_out}/${bwa_idx}/$1
+ref=${work}/${dir_gen}/$2
 
 #create directory if not exist
-if [ ! -e ${dir_out} ]
-then
-	mkdir ${dir_out}
-fi
-
-sub=${dir_out}/${bwa_idx}
+sub=${prefix%/*}
 if [ ! -e $sub ]
 then
-	mkdir $sub
+	mkdir -p $sub
 fi
 
-
-
 #build script
-script=script/${code}_bwa_idx.sh
+script=${work}/script/${1}_bwa_idx.sh
 rm -rf $script && touch $script && chmod 751 $script
 echo "$exe index -p $prefix $ref" >> $script
 
 #complete message
-echo -e ">>>>>Script generated at $work/${script} \n"
+echo -e ">>>>>Script generated at $script} \n"
 
