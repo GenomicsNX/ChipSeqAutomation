@@ -19,7 +19,7 @@ fi
 code=$1
 
 #import config
-source config/output.conf
+source config/directory.conf
 source config/executable.conf
 
 #paramter to run script
@@ -28,7 +28,7 @@ in=${work}/${dir_out}/${sam_bam}
 out=${work}/${dir_out}/${bam_sort}
 
 #generate script
-script=script/${code}_bam_sort.sh
+script=${work}/${dir_sh}/${code}_bam_sort.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #add info into script

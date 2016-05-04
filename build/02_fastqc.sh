@@ -23,7 +23,7 @@ source config/directory.conf
 #define parameters fastqc needs
 in=${work}/input/${code}
 exe=${work}/software/${fastqc}
-out=${work}/output/${qc}
+out=${work}/output/${qc}/${code}
 
 #if out directory not exist, create one
 if [ ! -e $out ]

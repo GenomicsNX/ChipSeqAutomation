@@ -20,7 +20,7 @@ code=$1
 
 #source config
 source config/executable.conf
-source config/output.conf
+source config/directory.conf
 
 #parameter to convert sam to bam
 exe=${work}/${dir_exe}/${samtools}
@@ -28,7 +28,7 @@ in=${work}/${dir_out}/${bwa_mem}
 out=${work}/${dir_out}/${sam_bam}
 
 #generate script
-script=script/${code}_sam2bam.sh
+script=${work}/${dir_sh}/${code}_sam2bam.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #write info into script
@@ -40,4 +40,4 @@ done
 cd $work
 
 #output complete info
-echo -e ">>>>>Script generated at: ${work}/${script} \n"
+echo -e ">>>>>Script generated at: ${script} \n"

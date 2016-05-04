@@ -1,0 +1,26 @@
+nohup: ignoring input
+[bwa_index] Pack FASTA... 4.15 sec
+[bwa_index] Construct BWT for the packed sequence...
+[BWTIncCreate] textLength=746491038, availableWord=64525548
+[BWTIncConstructFromPacked] 10 iterations done. 99453054 characters processed.
+[BWTIncConstructFromPacked] 20 iterations done. 190433566 characters processed.
+[BWTIncConstructFromPacked] 30 iterations done. 271293326 characters processed.
+[BWTIncConstructFromPacked] 40 iterations done. 343157678 characters processed.
+[BWTIncConstructFromPacked] 50 iterations done. 407026894 characters processed.
+[BWTIncConstructFromPacked] 60 iterations done. 463789982 characters processed.
+[BWTIncConstructFromPacked] 70 iterations done. 514237134 characters processed.
+[BWTIncConstructFromPacked] 80 iterations done. 559070702 characters processed.
+[BWTIncConstructFromPacked] 90 iterations done. 598914846 characters processed.
+[BWTIncConstructFromPacked] 100 iterations done. 634324430 characters processed.
+[BWTIncConstructFromPacked] 110 iterations done. 665792510 characters processed.
+[BWTIncConstructFromPacked] 120 iterations done. 693757374 characters processed.
+[BWTIncConstructFromPacked] 130 iterations done. 718608590 characters processed.
+[BWTIncConstructFromPacked] 140 iterations done. 740692382 characters processed.
+[bwa_index] 356.89 seconds elapse.
+[bwa_index] Update BWT... 2.76 sec
+[bwa_index] Pack forward-only FASTA... 2.30 sec
+[bwa_index] Construct SA from BWT and Occ... 154.47 sec
+[bwt_gen] Finished constructing BWT in 143 iterations.
+[main] Version: 0.7.13-r1126
+[main] CMD: /home/jwman/chipseq-automation/software/bwa-0.7.13/bwa index -p /home/jwman/chipseq-automation/output/bwa_idx/64 /home/jwman/chipseq-automation/genome/all.fasta
+[main] Real time: 526.773 sec; CPU: 520.576 sec
