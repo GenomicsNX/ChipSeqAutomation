@@ -47,7 +47,7 @@ then
 	echo "$java -jar $exe SE -thread $thread $4 ${in}/$5 ${out}/${code}_t.fastq ${param_t} " >> $script
 else
 	#pe mode
-	echo "$java -jar $exe PE -thread $thread $4 ${in}/$5 ${in}/$6 ${out}/${code}_t1_paired.fastq ${out}/${code}_t1_unpaired.fastq ${out}/${code}_t2_paired.fastq ${out}/${code}_t2_unpaired.fastq ${param_c} " >> $script
+	echo "$java -jar $exe PE -thread $thread $4 ${in}/$5 ${in}/$6 ${out}/${code}_t1_paired.fastq ${out}/${code}_t1_unpaired.fastq ${out}/${code}_t2_paired.fastq ${out}/${code}_t2_unpaired.fastq ${param_t} " >> $script
 fi
 
 #control
@@ -59,7 +59,7 @@ then
        		 echo "$java -jar $exe SE -thread $thread $4 ${in}/$7 ${out}/${code}_c.fastq ${param_c} " >> $script
 	else 
 		#pe mode
-       		 echo "$java -jar $exe PE -thread $thread $4 ${in}/$7 ${in}/$8 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_t} ">> $script
+       		 echo "$java -jar $exe PE -thread $thread $4 ${in}/$7 ${in}/$8 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_c} ">> $script
 	fi
 fi
 

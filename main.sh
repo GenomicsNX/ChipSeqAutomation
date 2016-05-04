@@ -87,10 +87,10 @@ do
 	sh build/04_bwa_mem.sh $code $thread $species $pe $control
 
 	#generate sam2bam script
-	sh build/05_sam2bam.sh $code
+	sh build/05_sam2bam.sh $code $control
 
 	#generate bam_sort script
-	sh build/06_bam_sort.sh $code
+	sh build/06_bam_sort.sh $code $control
 
 	#generate macs script
 	sh build/07_macs.sh $code $control $size

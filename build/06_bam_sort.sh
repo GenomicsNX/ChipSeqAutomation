@@ -9,14 +9,15 @@
 work=`pwd`
 
 #check input parameter if correct
-if [ $# -lt 1 ]
+if [ $# -lt 2 ]
 then
-	echo 'Usage: sh build_bam_sort.sh [code] '
+	echo 'Usage: sh build_bam_sort.sh [code] [has control]'
 	exit
 fi
 
 #experiment code
 code=$1
+control=$2
 
 #import config
 source config/directory.conf
@@ -31,12 +32,14 @@ out=${work}/${dir_out}/${bam_sort}
 script=${work}/${dir_sh}/${code}_bam_sort.sh
 rm -rf $script && touch $script && chmod 751 $script
 
-#add info into script
-for n in ${in}/${code}_*.sam.bam
-do
-	file=${n##*/}
-	echo "$exe sort ${in}/${file} ${out}/${file}_sorted " >> $script
-done
+#treatment 
+echo "$exe sort ${in}/${code}_t.sam ${out}/${code}_t_sorted " >> $script
+
+#control
+if [ $control = 'T' ]
+then
+	echo "$exe sort ${in}/${code}_c.sam ${out}/${code}_c_sorted " >> $script
+fi
 
 #output complete info
-echo -e ">>>>>Script generated at: ${work}/${script} \n"
+echo -e ">>>>>Script generated at: ${script} \n"

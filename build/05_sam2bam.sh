@@ -9,14 +9,15 @@
 work=`pwd`
 
 #check parameter of input
-if [ $# -lt 1 ]
+if [ $# -lt 2 ]
 then 
-	echo 'Usage: sh script [code]'
+	echo 'Usage: sh script [code] [has control]'
 	exit
 fi
 
 #experiment code
 code=$1
+control=$2
 
 #source config
 source config/executable.conf
@@ -31,13 +32,14 @@ out=${work}/${dir_out}/${sam_bam}
 script=${work}/${dir_sh}/${code}_sam2bam.sh
 rm -rf $script && touch $script && chmod 751 $script
 
-#write info into script
-for n in ${in}/${code}_*.sam
-do
-	file=${n##*/}
-	echo "$exe view -bS ${in}/${file} > ${out}/${file}" >> $script
-done
-cd $work
+#treatment sam file to bam
+echo "$exe view -bS ${in}/${code}_t.sam > ${out}/${code}_t.bam " >> $script
+
+#control sam file to bam
+if [ "$control" = 'T' ]
+then
+	echo "$exe view -bS ${in}/${code}_c.sam > ${out}/${code}_c.bam " >> $script
+fi
 
 #output complete info
 echo -e ">>>>>Script generated at: ${script} \n"
