@@ -10,24 +10,34 @@
 #init parameter
 work=`pwd`
 #check input parameter
-if [ $# -lt 8 ]
+if [ $# -lt 5 ]
 then 
-	echo 'Usage: sh build_trimmomatic.sh [code] [thread] [placeholder min len] [placeholder phred ] [treatment 1] [treatment 2] [control 1] [control 2]'
+	echo 'Usage: sh build_trimmomatic.sh [code] [treatment 1] [treatment 2] [control 1] [control 2]'
 	exit
 fi
 
-#accept input parameter 
-code=$1
-thread=$2
-param="LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 MINLEN:${3}"
 
 #import user config
 source config/executable.conf
 source config/directory.conf
+source config/preference.conf
+
+#accept input parameter 
+code=$1
+t1=$2
+t2=$3
+c1=$4
+c2=$5
+
+#param read from preference.conf
+thread=${thread_num}
+min_len=${ph_min_len}
+phred=${ph_phred}
 
 #parameter to run script
-adapter_t=${work}/output/${qc}/${code}/t_adapter.fa
-adapter_c=${work}/output/${qc}/${code}/c_adapter.fa
+param="LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 MINLEN:${min_len}"
+adapter_t=${work}/${dir_out}/${qc}/${code}/${t1%.*}.fa
+adapter_c=${work}/${dir_out}/${qc}/${code}/${c1%.*}.fa
 param_t="ILLUMINACLIP:${adapter_t}:2:30:10 $param"
 param_c="ILLUMINACLIP:${adapter_c}:2:30:10 $param"
 
@@ -41,25 +51,25 @@ script=${work}/script/${code}_trimmomatic.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #treatment
-if [ "$6"  = 'NULL' ]
+if [ "$t2"  = 'NULL' ]
 then
 	#se mode 
-	echo "$java -jar $exe SE -thread $thread $4 ${in}/$5 ${out}/${code}_t.fastq ${param_t} " >> $script
+	echo "$java -jar $exe SE -thread $thread $phred ${in}/$t1 ${out}/${code}_t.fastq ${param_t} " >> $script
 else
 	#pe mode
-	echo "$java -jar $exe PE -thread $thread $4 ${in}/$5 ${in}/$6 ${out}/${code}_t1_paired.fastq ${out}/${code}_t1_unpaired.fastq ${out}/${code}_t2_paired.fastq ${out}/${code}_t2_unpaired.fastq ${param_t} " >> $script
+	echo "$java -jar $exe PE -thread $thread $phred ${in}/$t1 ${in}/$t2 ${out}/${code}_t1_paired.fastq ${out}/${code}_t1_unpaired.fastq ${out}/${code}_t2_paired.fastq ${out}/${code}_t2_unpaired.fastq ${param_t} " >> $script
 fi
 
 #control
-if [ "$7" != 'NULL' ]
+if [ "$c1" != 'NULL' ]
 then
-	if [ "$8" = 'NULL' ]
+	if [ "$c2" = 'NULL' ]
 	then
        		 #se mode 
-       		 echo "$java -jar $exe SE -thread $thread $4 ${in}/$7 ${out}/${code}_c.fastq ${param_c} " >> $script
+       		 echo "$java -jar $exe SE -thread $thread $phred ${in}/$c1 ${out}/${code}_c.fastq ${param_c} " >> $script
 	else 
 		#pe mode
-       		 echo "$java -jar $exe PE -thread $thread $4 ${in}/$7 ${in}/$8 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_c} ">> $script
+       		 echo "$java -jar $exe PE -thread $thread $phred ${in}/$c1 ${in}/$c2 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_c} ">> $script
 	fi
 fi
 

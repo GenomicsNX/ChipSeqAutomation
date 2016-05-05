@@ -6,19 +6,20 @@
 #===============================================================
 
 work=`pwd`
-if  [ $# -lt 6 ]
+if  [ $# -lt 5 ]
 then
-	echo 'Usage: sh build_fastqc.sh [code] [treatment 1] [treatment 2] [control 1] [control 2] [thread]'
+	echo 'Usage: sh build_fastqc.sh [code] [treatment 1] [treatment 2] [control 1] [control 2]'
 	exit
 fi
-
-#accept all input parameters
-code=$1
-thread=$6
 
 #import relative config
 source config/executable.conf
 source config/directory.conf
+source config/preference.conf
+
+#accept all input parameters
+code=$1
+thread=${thread_num}
 
 #define parameters fastqc needs
 in=${work}/input/${code}

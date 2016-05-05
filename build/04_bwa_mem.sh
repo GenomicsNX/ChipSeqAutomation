@@ -9,22 +9,25 @@
 work=`pwd`
 
 #check if  input parameter is correct
-if [ $# -lt 5 ]
+if [ $# -lt 4 ]
 then
-	echo "Usage: sh build_bwa_mem.sh [code] [thread] [species] [T if pe] [T has control]"
+	echo "Usage: sh build_bwa_mem.sh [code] [species] [T if pe] [T has control]"
 	exit
 fi
-
-#experiment code
-code=$1
-thread=$2
-species=$3
-pe=$4
-control=$5
 
 #import config
 source config/executable.conf
 source config/directory.conf
+source config/preference.conf
+
+#receiving passing argument and 
+code=$1
+species=$2
+pe=$3
+control=$4
+
+#read parameter from preference.conf
+thread=${thread_num}
 
 #parametr to do bwa mem
 exe=${work}/software/${bwa}

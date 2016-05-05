@@ -19,17 +19,19 @@ source config/directory.conf
 source config/executable.conf
 
 #create files to store pids and logs
-pids=${work}/${dir_pid}/run_genome.pids
-log=${work}/${dir_log}/run_genome.log
+pids=${work}/${dir_pid}/run_genomes.pids
+log=${work}/${dir_log}/run_genomes.log
 rm -rf  $pids $log && touch $pids $log
 
 #build script to run genome relevant job
-script=${work}/${dir_sh}/run_genome.sh
+script=${work}/${dir_sh}/run_genomes.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #write info into script
-scripts=$1
-for s in $scripts
+all_jobs=$1
+
+#write each job into script
+for s in ${all_jobs}
 do
 	echo "# job $s" >> $script
 	echo "nohup sh $s >> $log 2>&1 &" >> $script

@@ -2,12 +2,6 @@
 
 #init essential parameters
 work=`pwd`
-thread=10
-
-#place holder, fill them when previous job is done
-ph_min_len=PLACEHOLER_MIN_LEN
-ph_phred=PLACEHOLER_PHRED
-
 
 #import directory to retrieve genome files
 source config/directory.conf
@@ -22,7 +16,6 @@ grep -vE '^$|^#' ${origin_genome} | while read line
 do
 	#check current column numbers
 	col=`echo $line |awk '{print NF}'`
-	echo $col
 	
 	#if col==3, genome size still not add into genome.conf
 	if [ $col == 3 ]
@@ -79,13 +72,13 @@ do
 	size=`awk -vs="$species" '$1==s {print $4}' config/genome.conf`
 	
 	#generate fastqc script
-	sh build/02_fastqc.sh $code $t1 $t2 $c1 $c2 $thread
+	sh build/02_fastqc.sh $code $t1 $t2 $c1 $c2 
 	
-	#generate trimmomatic script
-	sh build/03_trimmomatic.sh $code $thread ${ph_min_len} ${ph_phred} $t1 $t2 $c1 $c2
+	#generate trimmomatic script, placeholder are stored in config/preference.conf
+	sh build/03_trimmomatic.sh $code $t1 $t2 $c1 $c2
 	
 	#generate bwa_mem script
-	sh build/04_bwa_mem.sh $code $thread $species $pe $control
+	sh build/04_bwa_mem.sh $code $species $pe $control
 
 	#generate sam2bam script
 	sh build/05_sam2bam.sh $code $control
@@ -95,11 +88,15 @@ do
 
 	#generate macs script
 	sh build/07_macs.sh $code $control $size
-	
+
+	#generate running script
+	sh build/97_run_exp.sh $code $t1 $t2 $c1 $c2	
 done
 
+exit
+
 #generate script to run genome relevant scripts
-sh build/98_run_genome.sh "${work}/${dir_sh}/*_bwa_idx.sh"
+sh build/98_run_genomes.sh "${work}/${dir_sh}/*_bwa_idx.sh"
 
 #output init compete info
 echo -e "<<<<<All job scripts generated successfully, located at ${work}/${dir_sh}\n"
