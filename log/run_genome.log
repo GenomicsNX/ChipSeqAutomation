@@ -36,4 +36,8 @@
 [bwa_index] 332.77 seconds elapse.
 [bwa_index] Update BWT... 2.56 sec
 [bwa_index] Pack forward-only FASTA... 2.29 sec
-[bwa_index] Construct SA from BWT and Occ... 
+[bwa_index] Construct SA from BWT and Occ... 140.55 sec
+[bwt_gen] Finished constructing BWT in 143 iterations.
+[main] Version: 0.7.13-r1126
+[main] CMD: /home/jwman/chipseq-automation/software/bwa-0.7.13/bwa index -p /home/jwman/chipseq-automation/output/bwa_idx/64 /home/jwman/chipseq-automation/genome/all.fasta
+[main] Real time: 487.064 sec; CPU: 481.747 sec
