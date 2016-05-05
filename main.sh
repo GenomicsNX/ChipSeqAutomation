@@ -98,21 +98,14 @@ do
 	
 done
 
+#generate script to run genome relevant scripts
+sh build/98_run_genome.sh "${work}/${dir_sh}/*_bwa_idx.sh"
+
 #output init compete info
 echo -e "<<<<<All job scripts generated successfully, located at ${work}/${dir_sh}\n"
 
 #start running scripts
 pids=${work}/${dir_pid}/main.pid
-
-#running bwa idx
-grep -vE '^$|^#' config/genome.conf | while read line
-do
-	species=`echo $line | awk '{print $1}'`
-	nohup ${work}/${dir_sh}/${species}_bwa_idx.sh > ${work}/${dir_log}/${species}_bwa_idx.log 2>&1 &
-	pid=$!
-	echo $pid >>$pids
-
-done
 
 #output all work complet info
 echo -e "<<<<<All jobs completed! You can check your results under ${work}/${dir_out}.\n"

@@ -2,3 +2,6 @@
 /genome
 /input
 /output
+
+#ignore files with specified types
+*.nohup
