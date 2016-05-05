@@ -8,6 +8,7 @@ thread=10
 ph_min_len=PLACEHOLER_MIN_LEN
 ph_phred=PLACEHOLER_PHRED
 
+
 #import directory to retrieve genome files
 source config/directory.conf
 
@@ -34,7 +35,7 @@ do
 		#output result to bak file
 		echo -e "${line}\t${len}" >> ${bak_genome}
 
-	#no need to add genome size, as already existed
+	#no need to add genome sizes, as they already existed
 	else 
 		echo $line >> ${bak_genome}
 	fi
@@ -43,13 +44,13 @@ done
 #replace old genome.conf and delete genome.conf.bak
 cat ${bak_genome} > ${origin_genome} && rm -rf ${bak_genome}
 
-
 #generate bwa idx script for all genome
 grep -vE '^$|^#' config/genome.conf | while IFS=$'\t' read -r -a genomes
 do
-	sh build/01_bwa_idx.sh ${genomes[0]} ${genomes[1]}
+	species=${genomes[0]}
+	ref=${genomes[1]}
+	sh build/01_bwa_idx.sh $species $ref
 done
-
 
 
 #generate script from fastqc to macs for all experiments
@@ -96,5 +97,22 @@ do
 	sh build/07_macs.sh $code $control $size
 	
 done
-#output complete info
-echo -e "<<<<<All job scripts generated successfully, located at ${work}/${dir_sh}\n."
+
+#output init compete info
+echo -e "<<<<<All job scripts generated successfully, located at ${work}/${dir_sh}\n"
+
+#start running scripts
+pids=${work}/${dir_pid}/main.pid
+
+#running bwa idx
+grep -vE '^$|^#' config/genome.conf | while read line
+do
+	species=`echo $line | awk '{print $1}'`
+	nohup ${work}/${dir_sh}/${species}_bwa_idx.sh > ${work}/${dir_log}/${species}_bwa_idx.log 2>&1 &
+	pid=$!
+	echo $pid >>$pids
+
+done
+
+#output all work complet info
+echo -e "<<<<<All jobs completed! You can check your results under ${work}/${dir_out}.\n"
