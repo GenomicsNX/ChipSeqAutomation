@@ -5,3 +5,7 @@
 
 #ignore files with specified types
 *.nohup
+
+#ignore vim temporary files
+*~
+*.swp
