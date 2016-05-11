@@ -11,7 +11,7 @@ work=`pwd`
 #check input paramter
 if [ $# -lt 3 ]
 then
-	echo 'Usage: sh build_macs.sh [code] [has control] [genome size] '
+	echo 'Usage: sh 07_macs.sh [code] [has control] [genome size] '
 	exit
 fi
 
@@ -28,7 +28,13 @@ source config/directory.conf
 exe=${work}/${dir_exe}/${macs}
 t=${work}/${dir_out}/${bam_sort}/${code}_t.sam.bam_sorted.bam
 c=${work}/${dir_out}/${bam_sort}/${code}_c.sam.bam_sorted.bam
-prefix=${work}/${dir_out}/${macs_wig}/${code}
+out=${work}/${dir_out}/${macs_wig}
+prefix=${out}/${code}
+
+#if out directory not exist, create one
+if [ ! -e $out ]
+then mkdir -p $out
+fi
 
 #generate script
 script=${work}/${dir_sh}/${code}_macs.sh

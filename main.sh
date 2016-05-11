@@ -2,6 +2,7 @@
 
 #init essential parameters
 work=`pwd`
+rm pid/* log/* script/*
 
 #import directory to retrieve genome files
 source config/directory.conf
@@ -49,6 +50,7 @@ done
 #generate script from fastqc to macs for all experiments
 grep -vE '^$|^#' config/experiment.conf | while IFS=$'\t' read -r -a experiments
 do
+	
 	code=${experiments[0]}
 	species=${experiments[1]}
 	t1=${experiments[2]}
@@ -74,6 +76,9 @@ do
 	#generate fastqc script
 	sh build/02_fastqc.sh $code $t1 $t2 $c1 $c2 
 	
+	#generate hand qc output script
+	sh build/03_qc_out.sh $code $t1 $t2 $c1 $c2
+
 	#generate trimmomatic script, placeholder are stored in config/preference.conf
 	sh build/03_trimmomatic.sh $code $t1 $t2 $c1 $c2
 	
@@ -90,19 +95,25 @@ do
 	sh build/07_macs.sh $code $control $size
 
 	#generate running script
-	sh build/97_run_exp.sh $code $t1 $t2 $c1 $c2	
+	sh build/97_start_exp.sh $code	
 done
 
-exit
-
-#generate script to run genome relevant scripts
+#generate script to run genome relevant scripts, for convenience, using file suffix to identify all genomes
 sh build/98_run_genomes.sh "${work}/${dir_sh}/*_bwa_idx.sh"
 
-#output init compete info
-echo -e "<<<<<All job scripts generated successfully, located at ${work}/${dir_sh}\n"
+#generate script to run experiment relevant scripts, same as above, using file suffix to identify all genomes
+sh build/99_run_experiments.sh "${work}/${dir_sh}/*_start.sh"
 
-#start running scripts
-pids=${work}/${dir_pid}/main.pid
+#output init compete info
+echo -e "<<<<<All scripts successfully generated at ${work}/${dir_sh}\n"
+
+#start running genome relevant scripts
+echo -e "-----start genome relevant jobs"
+#sh ${work}/${dir_sh}/run_genomes.sh
+
+#start running genome relevant scripts
+echo -e "-----start experiments relevant jobs\n"
+sh ${work}/${dir_sh}/run_experiments.sh
 
 #output all work complet info
 echo -e "<<<<<All jobs completed! You can check your results under ${work}/${dir_out}.\n"

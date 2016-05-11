@@ -1,2 +1,2 @@
-/home/jwman/chipseq-automation/software/samtools-1.3/bin/samtools view -bS /home/jwman/chipseq-automation/output/bwa_mem/czl_t.sam > /home/jwman/chipseq-automation/output/sam2bam/czl_t.bam 
-/home/jwman/chipseq-automation/software/samtools-1.3/bin/samtools view -bS /home/jwman/chipseq-automation/output/bwa_mem/czl_c.sam > /home/jwman/chipseq-automation/output/sam2bam/czl_c.bam 
+/home/jwman/chipseq-automation/software/samtools-1.3/bin/samtools view --threads 10 -bS /home/jwman/chipseq-automation/output/bwa_mem/czl_t.sam -o /home/jwman/chipseq-automation/output/sam2bam/czl_t.bam 
+/home/jwman/chipseq-automation/software/samtools-1.3/bin/samtools view --threads 10 -bS /home/jwman/chipseq-automation/output/bwa_mem/czl_c.sam -o /home/jwman/chipseq-automation/output/sam2bam/czl_c.bam 

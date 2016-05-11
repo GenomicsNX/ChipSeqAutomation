@@ -13,7 +13,12 @@ function update(){
 	#statistic how many jobs still running
 	count=`wc -l $pids`
 	count=${count% *}
-	echo -e "$count job(s) still running"
+	if [ "$count" -eq 1 ]
+	then
+		echo -e "$count job still in progress"
+	else
+		echo -e "$count jobs still in progress"
+	fi
 	
 	#create bak file of pid file to store running jobs' pid after checking status
 	bak=${pids}.bak
@@ -26,6 +31,7 @@ function update(){
 		if [ "$status" -eq 2 ]
 		then 
 			echo "$pid" >> $bak
+			echo "$pid"
 		fi
 	done
 
@@ -45,15 +51,16 @@ function update(){
 	
 }
 #check passing arguments
-if [ $# -lt 2 ]
+if [ $# -lt 3 ]
 then
-	echo "Usage: sh update_pids.sh [pids file] [job description (ONE word)]"
+	echo "Usage: sh update_pids.sh [pids file] [job description (ONE word)] [sleep time]"
 	exit
 fi
 
 #accpet passing arguments
 pid_file=$1
 word=$2
+duration=$3
 
 #flag to check if all jobs are done
 prev=0
@@ -63,8 +70,8 @@ until [ $prev -eq 1 ]
 do
 	update ${pid_file}
 	prev=$?
-	echo "check job status of ${word} 30 seconds later"
-	sleep 30s
+	echo "check job status of ${word} ${duration} later"
+	sleep $duration
 done
 
 #output complete information

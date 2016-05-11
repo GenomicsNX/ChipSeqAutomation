@@ -1,19 +1,23 @@
-#do quality contrl for czl experiment
-sh /home/jwman/chipseq-automation/script/czl_fastqc.sh 
+#do quality contrl using FastQC for czl experiment
+echo " `date` czl fastqc complete!" 
 
-#handle qc result of treatment data for czl experiment
-/usr/java/latest/bin/java -jar  /home/jwman/chipseq-automation/output/qc/czl/T1.zip
-/usr/java/latest/bin/java -jar  /home/jwman/chipseq-automation/output/qc/czl/T2.zip
-tail -n +3 /home/jwman/chipseq-automation/output/qc/czl/T2.txt >> /home/jwman/chipseq-automation/output/qc/czl/T1.txt
-phred=`head -n 1 /home/jwman/chipseq-automation/output/qc/czl/T1.txt`
-min_len=`head -n 2 /home/jwman/chipseq-automation/output/qc/czl/T1.txt |tail -n 1`
-tail -n +3 /home/jwman/chipseq-automation/output/qc/czl/T1.txt > /home/jwman/chipseq-automation/output/qc/czl/T1.fa 
+#handle qc output for experiment czl 
+echo " `date` czl qc_out complete!" 
 
-#handle qc result of control data for czl experiment
-/usr/java/latest/bin/java -jar  /home/jwman/chipseq-automation/output/qc/czl/C1.zip
-/usr/java/latest/bin/java -jar  /home/jwman/chipseq-automation/output/qc/czl/C2.zip
-tail -n +3 /home/jwman/chipseq-automation/output/qc/czl/C1.txt > /home/jwman/chipseq-automation/output/qc/czl/C1.fa 
-sed -e "s/${phred}/PLACEHOLER_PHRED/g" -e "s/${min_len}/PLACEHOLER_MIN_LEN/g " /home/jwman/chipseq-automation/script/czl_trimmomatic.sh
-#run trimmomatic script for experiment czl
-sh /home/jwman/chipseq-automation/script/czl_trimmomatic.sh 
+#do trim work using trimmomatic for experiment czl
+echo " `date` czl trimmomatic complete!" 
 
+#do alignment using bwa mem for experiment czl
+echo " `date` czl bwa_mem complete!" 
+
+#do convert sam file to bam file using samtools for experiment czl
+echo " `date` czl sam2bam complete!" 
+
+#do bam sort using samtools for experiment czl
+echo " `date` czl bam_sort complete!" 
+
+#do peak calling using macs for experiment czl 
+sh /home/jwman/chipseq-automation/script/czl_macs.sh > /home/jwman/chipseq-automation/log/czl_macs.log 2>&1
+echo " `date` czl macs complete!" 
+
+exit

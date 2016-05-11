@@ -36,8 +36,8 @@ phred=${ph_phred}
 
 #parameter to run script
 param="LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 MINLEN:${min_len}"
-adapter_t=${work}/${dir_out}/${qc}/${code}/${t1%.*}.fa
-adapter_c=${work}/${dir_out}/${qc}/${code}/${c1%.*}.fa
+adapter_t=${work}/${dir_out}/${qc}/${code}/${t1%.*}_fastqc.fa
+adapter_c=${work}/${dir_out}/${qc}/${code}/${c1%.*}_fastqc.fa
 param_t="ILLUMINACLIP:${adapter_t}:2:30:10 $param"
 param_c="ILLUMINACLIP:${adapter_c}:2:30:10 $param"
 
@@ -45,6 +45,11 @@ param_c="ILLUMINACLIP:${adapter_c}:2:30:10 $param"
 exe=${work}/software/${trimmomatic}
 in=${work}/input/${code}
 out=${work}/output/${trim}
+
+#if out directory not exist, create one
+if [ ! -e $out ]
+then mkdir -p $out
+fi
 
 #generate script
 script=${work}/script/${code}_trimmomatic.sh
@@ -54,10 +59,10 @@ rm -rf $script && touch $script && chmod 751 $script
 if [ "$t2"  = 'NULL' ]
 then
 	#se mode 
-	echo "$java -jar $exe SE -thread $thread $phred ${in}/$t1 ${out}/${code}_t.fastq ${param_t} " >> $script
+	echo "$java -jar $exe SE -threads $thread $phred ${in}/$t1 ${out}/${code}_t.fastq ${param_t} " >> $script
 else
 	#pe mode
-	echo "$java -jar $exe PE -thread $thread $phred ${in}/$t1 ${in}/$t2 ${out}/${code}_t1_paired.fastq ${out}/${code}_t1_unpaired.fastq ${out}/${code}_t2_paired.fastq ${out}/${code}_t2_unpaired.fastq ${param_t} " >> $script
+	echo "$java -jar $exe PE -threads $thread $phred ${in}/$t1 ${in}/$t2 ${out}/${code}_t1_paired.fastq ${out}/${code}_t1_unpaired.fastq ${out}/${code}_t2_paired.fastq ${out}/${code}_t2_unpaired.fastq ${param_t} " >> $script
 fi
 
 #control
@@ -66,10 +71,10 @@ then
 	if [ "$c2" = 'NULL' ]
 	then
        		 #se mode 
-       		 echo "$java -jar $exe SE -thread $thread $phred ${in}/$c1 ${out}/${code}_c.fastq ${param_c} " >> $script
+       		 echo "$java -jar $exe SE -threads $thread $phred ${in}/$c1 ${out}/${code}_c.fastq ${param_c} " >> $script
 	else 
 		#pe mode
-       		 echo "$java -jar $exe PE -thread $thread $phred ${in}/$c1 ${in}/$c2 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_c} ">> $script
+       		 echo "$java -jar $exe PE -threads $thread $phred ${in}/$c1 ${in}/$c2 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_c} ">> $script
 	fi
 fi
 
