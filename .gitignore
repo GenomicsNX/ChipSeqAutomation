@@ -11,3 +11,5 @@
 *.swp
 
 #ignore files in SOFTWARE but not in sub folder PACKAGE
+software/*
+!software/package/
