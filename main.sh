@@ -2,6 +2,8 @@
 
 #init essential parameters
 work=`pwd`
+
+#remove last running output.
 rm pid/* log/* script/*
 
 #import directory to retrieve genome files
@@ -10,33 +12,42 @@ source config/directory.conf
 #create bakup file of config/genome.conf and store header
 origin_genome=${work}/config/genome.conf
 bak_genome=${origin_genome}.bak
-head -n 1 ${origin_genome} > ${bak_genome}
+rm -f ${bak_genome} && touch ${bak_genome}
 
-#read line of genome.conf and do calculation
-grep -vE '^$|^#' ${origin_genome} | while read line
+#calculate genome size
+grep -v '^$' ${origin_genome} | while read line
 do
-	#check current column numbers
-	col=`echo $line |awk '{print NF}'`
-	
-	#if col==3, genome size still not add into genome.conf
-	if [ $col == 3 ]
+	#it is annotation line, just pass the line to bak file
+	if [ ${line:0:1} = '#' ]
 	then
-		#calculate genome size 
-		ref="${work}/${dir_gen}/`echo $line | awk '{print $2}' `"
-		len=`wc -c $ref`
-		len=${len% *}
-	
-		#output result to bak file
-		echo -e "${line}\t${len}" >> ${bak_genome}
-
-	#no need to add genome sizes, as they already existed
-	else 
 		echo $line >> ${bak_genome}
+		#skip next code if this line is only annotation
+		continue
 	fi
+
+        #check current column numbers
+        col=`echo $line |awk '{print NF}'`
+
+        #if col==3, genome size still not add into genome.conf
+        if [ $col == 3 ]
+        then
+                #calculate genome size 
+                ref="${work}/${dir_gen}/`echo $line | awk '{print $2}' `"
+                len=`wc -c $ref`
+                len=${len% *}
+
+                #output result to bak file
+                echo -e "${line}\t${len}" >> ${bak_genome}
+
+        #no need to add genome sizes, as they already existed
+        else
+                echo $line >> ${bak_genome}
+        fi
+		
 done
 
-#replace old genome.conf and delete genome.conf.bak
-cat ${bak_genome} > ${origin_genome} && rm -rf ${bak_genome}
+#write bak info back into genome file and delete bak genome file
+cat ${bak_genome} > ${origin_genome} && rm -f ${bak_genome}
 
 #generate bwa idx script for all genome
 grep -vE '^$|^#' config/genome.conf | while IFS=$'\t' read -r -a genomes
@@ -47,7 +58,7 @@ do
 done
 
 
-#generate script from fastqc to macs for all experiments
+#generate scripts from fastqc to macs for all experiments
 grep -vE '^$|^#' config/experiment.conf | while IFS=$'\t' read -r -a experiments
 do
 	
@@ -109,11 +120,11 @@ echo -e "<<<<<All scripts successfully generated at ${work}/${dir_sh}\n"
 
 #start running genome relevant scripts
 echo -e "-----start genome relevant jobs"
-#sh ${work}/${dir_sh}/run_genomes.sh
+sh ${work}/${dir_sh}/run_genomes.sh
 
 #start running genome relevant scripts
 echo -e "-----start experiments relevant jobs\n"
-sh ${work}/${dir_sh}/run_experiments.sh
+#sh ${work}/${dir_sh}/run_experiments.sh
 
 #output all work complet info
-echo -e "<<<<<All jobs completed! You can check your results under ${work}/${dir_out}.\n"
+echo -e "<<<<<All jobs completed! Results in ${work}/${dir_out}.\n"

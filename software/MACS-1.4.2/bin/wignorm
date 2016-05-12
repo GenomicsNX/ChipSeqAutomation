@@ -1,4 +1,4 @@
-#!/root/local/anaconda2/bin/python
+#!/usr/bin/python
 # Time-stamp: <2011-03-15 12:32:34 Tao Liu>
 
 """Description: Call peaks from two wiggle file, one for treatment and one for control.

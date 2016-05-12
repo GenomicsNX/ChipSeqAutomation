@@ -1,4 +1,4 @@
-#!/root/local/anaconda2/bin/python
+#!/usr/bin/python
 # Time-stamp: <2012-04-25 22:34:40 Tao Liu>
 
 """Description: MACS 1.4 main executable

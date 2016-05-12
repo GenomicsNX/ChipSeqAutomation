@@ -21,22 +21,33 @@ source config/directory.conf
 
 #assebmle parameter to run bwa idx
 exe=${work}/${dir_exe}/${bwa}
+
 #using species number as prefix
-prefix=${work}/${dir_out}/${bwa_idx}/$1
+species=$1
+prefix=${work}/${dir_out}/${bwa_idx}/$species
 ref=${work}/${dir_gen}/$2
 
 #create directory if not exist
 sub=${prefix%/*}
 if [ ! -e $sub ]
 then
-	mkdir -p $sub
+        mkdir -p $sub
 fi
 
 #build script
-script=${work}/script/${1}_bwa_idx.sh
+script=${work}/script/${species}_bwa_idx.sh
 rm -rf $script && touch $script && chmod 751 $script
-echo "$exe index -p $prefix $ref" >> $script
+
+#write corresponding information into script
+
+if [ -e ${prefix}.amb -a -e ${prefix}.ann -a -e ${prefix}.bwt -a -e ${prefix}.pac -a -e ${prefix}.sa ]
+then	
+	#bwa index already be done	
+        echo "echo 'genome index of ${species} is already done, using existed index!'" >> $script
+else
+	#write bwa index command into script
+	echo "$exe index -p $prefix $ref" >> $script
+fi
 
 #complete message
 echo -e ">>>>>Script generated at $script} \n"
-

@@ -26,8 +26,8 @@ source config/directory.conf
 
 #parameter to run script
 exe=${work}/${dir_exe}/${macs}
-t=${work}/${dir_out}/${bam_sort}/${code}_t.sam.bam_sorted.bam
-c=${work}/${dir_out}/${bam_sort}/${code}_c.sam.bam_sorted.bam
+t=${work}/${dir_out}/${bam_sort}/${code}_t_sorted.bam
+c=${work}/${dir_out}/${bam_sort}/${code}_c_sorted.bam
 out=${work}/${dir_out}/${macs_wig}
 prefix=${out}/${code}
 

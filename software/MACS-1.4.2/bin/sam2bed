@@ -1,4 +1,4 @@
-#!/root/local/anaconda2/bin/python
+#!/usr/bin/python
 # Time-stamp: <2010-06-07 17:34:30 Tao Liu>
 
 import os

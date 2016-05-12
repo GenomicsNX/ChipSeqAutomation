@@ -1,7 +1,0 @@
- Wed May 11 10:19:21 EDT 2016 czl fastqc complete!
- Wed May 11 10:19:21 EDT 2016 czl qc_out complete!
- Wed May 11 10:19:21 EDT 2016 czl trimmomatic complete!
- Wed May 11 10:19:21 EDT 2016 czl bwa_mem complete!
- Wed May 11 10:19:21 EDT 2016 czl sam2bam complete!
- Wed May 11 10:19:21 EDT 2016 czl bam_sort complete!
- Wed May 11 10:19:21 EDT 2016 czl macs complete!
