@@ -1,15 +1,17 @@
 #ingore genome, input , output
-/genome
-/input
-/output
+/genome/
+/input/
+/output/
 
 #ignore files with specified types
 *.nohup
+*.log
+*.pids
 
 #ignore vim temporary files
 *~
 *.swp
 
 #ignore files in SOFTWARE but not in sub folder PACKAGE
-software/*
-!software/package/
+/software/*
+!/software/package/
