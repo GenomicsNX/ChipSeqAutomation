@@ -7,18 +7,18 @@
 
 #function to update job pids if still running
 function update(){
-	#receive pids file
+
+	#receive passing parameters
 	pids=$1
+	sleep_time=$2
+	count=$3
 	
 	#statistic how many jobs still running
-	count=`wc -l $pids`
-	count=${count% *}
-	if [ "$count" -eq 1 ]
-	then
-		echo -e "$count job still in progress"
-	else
-		echo -e "$count jobs still in progress"
-	fi
+	num=`cat $pids | wc -l`
+	
+	#echo job status and job statistic to stout
+	all_pids=`grep -v '^$' $pids | tr '\n' ',' `
+	echo -ne "The $count time checking job status, ${all_pids} all $num job(s) still in progress, check them ${sleep_time} later\r"
 	
 	#create bak file of pid file to store running jobs' pid after checking status
 	bak=${pids}.bak
@@ -31,7 +31,6 @@ function update(){
 		if [ "$status" -eq 2 ]
 		then 
 			echo "$pid" >> $bak
-			echo "$pid"
 		fi
 	done
 
@@ -51,28 +50,33 @@ function update(){
 	
 }
 #check passing arguments
-if [ $# -lt 3 ]
+if [ $# -lt 2 ]
 then
-	echo "Usage: sh update_pids.sh [pids file] [job description (ONE word)] [sleep time]"
+	echo "Usage: sh update_pids.sh [pids file] [sleep time]"
 	exit
 fi
-
-#accpet passing arguments
-pid_file=$1
-word=$2
-duration=$3
 
 #flag to check if all jobs are done
 prev=0
 
+#mark times check the job status and output to stout
+count=1
+
 #start loop to check status, only all job is done, exit the loop
 until [ $prev -eq 1 ]
 do
-	update ${pid_file}
+	#check all job status in pid files
+	update "${1}" "${2}" "$count"
+	
+	#$? represents result of last running script.
 	prev=$?
-	echo "check job status of ${word} ${duration} later"
-	sleep $duration
+	
+	#increase check times
+	count=`expr $count + 1`
+	
+	#sleep current thread for ${duration}
+	sleep "$2"
 done
 
 #output complete information
-echo -e "all ${word} jobs in ${pid_file} are done!\n"
+echo -e "<<<<<all ${word} jobs in ${pid_file} are done!\n"

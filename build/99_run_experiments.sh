@@ -41,9 +41,8 @@ done
 
 #echo check job status into script
 echo "#check above job status, exit when all jobs are complete" >> $script
-word=experiments_workflow
 duration=${sleep_time}
-echo "sh ${work}/${dir_tool}/${sh_update} $pids $word ${duration}" >> $script
+echo "sh ${work}/${dir_tool}/${sh_update} $pids ${duration}" >> $script
 
 #echo complete info
 echo -e "======Script generated at $script \n"

@@ -120,7 +120,7 @@ echo -e "<<<<<All scripts successfully generated at ${work}/${dir_sh}\n"
 
 #start running genome relevant scripts
 echo -e "-----start genome relevant jobs"
-#sh ${work}/${dir_sh}/run_genomes.sh
+sh ${work}/${dir_sh}/run_genomes.sh
 
 #start running genome relevant scripts
 echo -e "-----start experiments relevant jobs\n"
