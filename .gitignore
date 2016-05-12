@@ -1,7 +1,7 @@
 #ingore genome, input , output
-/genome/
-/input/
-/output/
+/genome/*
+/input/*
+/output/*
 
 #ignore files with specified types
 *.nohup
