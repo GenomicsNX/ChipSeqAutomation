@@ -36,8 +36,8 @@ phred=${ph_phred}
 
 #parameter to run script
 param="LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 MINLEN:${min_len}"
-adapter_t=${work}/${dir_out}/${qc}/${code}/${t1%.*}_fastqc.fa
-adapter_c=${work}/${dir_out}/${qc}/${code}/${c1%.*}_fastqc.fa
+adapter_t=${work}/${dir_out}/${qc}/${code}/t_adapter.fa
+adapter_c=${work}/${dir_out}/${qc}/${code}/c_adapter.fa
 param_t="ILLUMINACLIP:${adapter_t}:2:30:10 $param"
 param_c="ILLUMINACLIP:${adapter_c}:2:30:10 $param"
 
