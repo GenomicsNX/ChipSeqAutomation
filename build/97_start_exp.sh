@@ -68,8 +68,9 @@ echo "echo \" \`date\` ${code} bam_sort complete!\" " >> $script
 #=====macs=====
 echo -e "\n#do peak calling using macs for experiment ${code} " >> $script
 #add environment variable to $PATH as macs requested.
-echo "export PYTHONPATH=/home/jwman/chipseq-automation/software/MACS-1.4.2/lib/python2.7/site-packages:\$PYTHONPATH" >> $script
-echo "export PATH=/home/jwman/chipseq-automation/software/MACS-1.4.2/bin:\$PATH" >> $script
+path_macs=${work}/${dir_exe}/${upk_macs}
+echo "export PYTHONPATH=${path_macs}/lib/python2.7/site-packages:\$PYTHONPATH" >> $script
+echo "export PATH=${path_macs}/bin:\$PATH" >> $script
 echo "sh ${sh_prefix}macs.sh > ${log_prefix}macs.log 2>&1" >>$script
 echo "echo \" \`date\` ${code} macs complete!\" " >> $script
 
