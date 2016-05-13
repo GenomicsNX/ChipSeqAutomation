@@ -4,7 +4,7 @@
 work=`pwd`
 
 #remove last running output.
-rm pid/* log/* script/*
+#rm pid/* log/* script/*
 
 #import directory to retrieve genome files
 source config/directory.conf
@@ -46,7 +46,7 @@ do
 		
 done
 
-#write bak info back into genome file and delete bak genome file
+#write genome  bak info back into genome file and delete bak genome file
 cat ${bak_genome} > ${origin_genome} && rm -f ${bak_genome}
 
 #generate bwa idx script for all genome
@@ -54,7 +54,12 @@ grep -vE '^$|^#' config/genome.conf | while IFS=$'\t' read -r -a genomes
 do
 	species=${genomes[0]}
 	ref=${genomes[1]}
+	#generate script of create genome index using bwa
 	sh build/01_bwa_idx.sh $species $ref
+
+	#generate script of running all genome relevant scripts
+	#sh build/96_start_genome.sh $species
+	
 done
 
 
@@ -109,22 +114,26 @@ do
 	sh build/97_start_exp.sh $code	
 done
 
-#generate script to run genome relevant scripts, for convenience, using file suffix to identify all genomes
-sh build/98_run_genomes.sh "${work}/${dir_sh}/*_bwa_idx.sh"
+#generate script to run genome scripts in order, arguments are genome codes
+g_codes=`grep -vE '^$|^#' config/genome.conf|awk '{print $1}'|tr '\n' ' '`
+g_codes=${g_codes% *}
+sh build/98_run_genomes.sh ${g_codes}
 
-#generate script to run experiment relevant scripts, same as above, using file suffix to identify all genomes
-sh build/99_run_experiments.sh "${work}/${dir_sh}/*_start.sh"
+#generate script to run experiment scripts in order, arguments are experiment codes
+e_codes=`grep -vE '^$|^#' config/experiment.conf|awk '{print $1}'|tr '\n' ' '`
+e_codes=${e_codes% *}
+sh build/99_run_experiments.sh ${e_codes}
 
 #output init compete info
-echo -e "<<<<<All scripts successfully generated at ${work}/${dir_sh}\n"
+echo -e "\n<<<<<All scripts successfully generated at ${work}/${dir_sh}"
 
 #start running genome relevant scripts
-echo -e "-----start genome relevant jobs"
-sh ${work}/${dir_sh}/run_genomes.sh
+echo -e "\n-----start genome relevant jobs"
+sh ${work}/${dir_sh}/00_run_genomes.sh
 
 #start running genome relevant scripts
-echo -e "-----start experiments relevant jobs\n"
-sh ${work}/${dir_sh}/run_experiments.sh
+echo -e "\n-----start experiments relevant jobs"
+sh ${work}/${dir_sh}/01_run_experiments.sh
 
 #output all work complet info
-echo -e "<<<<<All jobs completed! Results in ${work}/${dir_out}.\n"
+echo -e "\n<<<<<All jobs completed! Results in ${work}/${dir_out}.\n"

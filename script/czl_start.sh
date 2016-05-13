@@ -1,5 +1,9 @@
 
+#mark job start time
+echo " `date` czl start analysis!"
+
 #do quality contrl using FastQC for czl experiment
+sh /home/jwman/chipseq-automation/script/czl_fastqc.sh > /home/jwman/chipseq-automation/log/czl_fastqc.log 2>&1
 echo " `date` czl fastqc complete!"
 
 #handle qc output for experiment czl 

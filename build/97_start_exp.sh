@@ -37,7 +37,7 @@ echo "echo \" \`date\` ${code} start analysis!\"" >> $script
 
 #=====fastqc======  
 echo -e "\n#do quality contrl using FastQC for ${code} experiment" >> $script
-#echo "sh ${sh_prefix}fastqc.sh > ${log_prefix}fastqc.log 2>&1" >> $script
+echo "sh ${sh_prefix}fastqc.sh > ${log_prefix}fastqc.log 2>&1" >> $script
 echo "echo \" \`date\` ${code} fastqc complete!\"" >> $script
 
 #=====qc_out======

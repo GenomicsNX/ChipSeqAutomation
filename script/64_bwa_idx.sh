@@ -1,1 +1,1 @@
-echo 'genome index of 64 is already done, using existed index!'
+/home/jwman/chipseq-automation/software/bwa-0.7.13/bwa index -p /home/jwman/chipseq-automation/output/bwa_idx/64 /home/jwman/chipseq-automation/genome/all.fasta

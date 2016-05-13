@@ -1,5 +1,9 @@
 
+#mark job start time
+echo " `date` zy_ox start analysis!"
+
 #do quality contrl using FastQC for zy_ox experiment
+sh /home/jwman/chipseq-automation/script/zy_ox_fastqc.sh > /home/jwman/chipseq-automation/log/zy_ox_fastqc.log 2>&1
 echo " `date` zy_ox fastqc complete!"
 
 #handle qc output for experiment zy_ox 

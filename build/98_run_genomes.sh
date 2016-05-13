@@ -11,7 +11,7 @@ work=`pwd`
 #test if parameter was correct 
 if [ $# -lt 1 ]
 then
-	echo "Usage: sh 98_run_genome.sh [genome scripts] "
+	echo "Usage: sh 98_run_genome.sh <genome code0> [genome code1] ... "
 	exit
 fi
 #import config
@@ -25,23 +25,26 @@ log=${work}/${dir_log}/run_genomes.log
 rm -rf  $pids $log && touch $pids $log
 
 #build script to run genome relevant job
-script=${work}/${dir_sh}/run_genomes.sh
+script=${work}/${dir_sh}/00_run_genomes.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #write info into script
-all_jobs=$1
-
+code_num=$#
+sh_prefix=${work}/${dir_sh}
+sh_suffix="_bwa_idx.sh"
 #write each job into script\
-for s in ${all_jobs}
+for i in $(seq 1 $code_num)
 do
-	echo "# job $s" >> $script
-	echo "echo \"job $s start running!\"" >> $script
-	echo "nohup sh $s >> $log 2>&1 &" >> $script
-	echo -e "echo \$! >> $pids \n" >> $script
+	eval code=\$$i
+	job=${sh_prefix}/${code}${sh_suffix}
+	echo -e "\n#genome $code" >> $script
+	echo "echo \"genome $code start analysis!\"" >> $script
+	echo "nohup sh ${job} >> $log 2>&1 &" >> $script
+	echo "echo \$! >> $pids" >> $script
 done
 
 #echo check job status into script
-echo "#check above job status, exit when all jobs are complete" >> $script
+echo -e "\n#check above job status, exit when all jobs are complete" >> $script
 duration=${sleep_time}
 echo "sh ${work}/${dir_tool}/${sh_update} $pids ${duration}" >> $script
 

@@ -1,5 +1,9 @@
 
+#mark job start time
+echo " `date` zw_h1 start analysis!"
+
 #do quality contrl using FastQC for zw_h1 experiment
+sh /home/jwman/chipseq-automation/script/zw_h1_fastqc.sh > /home/jwman/chipseq-automation/log/zw_h1_fastqc.log 2>&1
 echo " `date` zw_h1 fastqc complete!"
 
 #handle qc output for experiment zw_h1 

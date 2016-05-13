@@ -10,7 +10,7 @@ work=`pwd`
 #test if parameter was correct 
 if [ $# -lt 1 ]
 then
-        echo "Usage: sh 99_run_experiments.sh [job scripts] "
+        echo "Usage: sh 99_run_experiments.sh <experiment code0> [experiment code1]..." 
         exit
 fi
 #import config
@@ -24,23 +24,27 @@ log=${work}/${dir_log}/run_experiments.log
 rm -rf  $pids $log && touch $pids $log
 
 #build script to run genome relevant job
-script=${work}/${dir_sh}/run_experiments.sh
+script=${work}/${dir_sh}/01_run_experiments.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #write info into script
-all_jobs=$1
+code_num=$#
+sh_prefix=${work}/${dir_sh}
+sh_suffix="_start.sh"
 
 #write each job into script
-for s in ${all_jobs}
+for i in $(seq 1 ${code_num})
 do
-        echo "# job $s" >> $script
-	echo "echo \"job $s start running!\"" >> $script
-        echo "nohup sh $s >> $log 2>&1 &" >> $script
-        echo -e "echo \$! >> $pids \n" >> $script
+	eval code=\$$i
+	job=${sh_prefix}/${code}${sh_suffix}
+        echo -e "\n#experiment $code" >> $script
+	echo "echo \"experiment $code start analysis!\"" >> $script
+        echo "nohup sh $job >> $log 2>&1 &" >> $script
+        echo "echo \$! >> $pids" >> $script
 done
 
 #echo check job status into script
-echo "#check above job status, exit when all jobs are complete" >> $script
+echo -e "\n#check above job status, exit when all jobs are complete" >> $script
 duration=${sleep_time}
 echo "sh ${work}/${dir_tool}/${sh_update} $pids ${duration}" >> $script
 
