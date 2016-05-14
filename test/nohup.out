@@ -1,0 +1,6 @@
+--2016-04-21 01:19:11--  ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCF_000001405.33_GRCh38.p7/GCF_000001405.33_GRCh38.p7_genomic.gff.gz
+           => ‘GCF_000001405.33_GRCh38.p7_genomic.gff.gz’
+Resolving ftp.ncbi.nlm.nih.gov (ftp.ncbi.nlm.nih.gov)... 130.14.250.10, 2607:f220:41e:250::13
+Connecting to ftp.ncbi.nlm.nih.gov (ftp.ncbi.nlm.nih.gov)|130.14.250.10|:21... connected.
+Logging in as anonymous ... Logged in!
+==> SYST ... 
