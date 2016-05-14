@@ -42,17 +42,19 @@ rm -rf $script && touch $script && chmod 751 $script
 #convert sam file to bam file and check alignment quality
 for s in 't' 'c'
 do
+	#if no control, do not generate command
+	if [ $control != 'T' -a $s = 'c' ]
+	then
+		continue
+	fi
 	sam=${in}_${s}.sam
 	bam=${out}_${s}.bam
-	if [ -e ${sam} ]
-	then
-		echo -e "\n#convert $sam to $bam " >> $script
-		echo "echo \"convert $sam to $bam\"">> $script
-		echo "$exe view --threads $thread -bS $sam -o $bam" >> $script
-		echo -e "\n#check alignment quality of $bam" >> $script
-		echo "echo \"check alignment quality of $bam\"" >> $script
-		echo "$exe flagstat ${bam}" >> $script
-	fi
+	echo -e "\n#convert $sam to $bam " >> $script
+	echo "echo \"convert $sam to $bam\"">> $script
+	echo "$exe view --threads $thread -bS $sam -o $bam" >> $script
+	echo -e "\n#check alignment quality of $bam" >> $script
+	echo "echo \"check alignment quality of $bam\"" >> $script
+	echo "$exe flagstat ${bam}" >> $script
 done
 
 
