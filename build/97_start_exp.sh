@@ -50,6 +50,11 @@ echo -e "\n#do trim work using trimmomatic for experiment ${code}" >> $script
 echo "sh ${sh_prefix}trimmomatic.sh > ${log_prefix}trimmomatic.log 2>&1" >> $script
 echo "echo \" \`date\` ${code} trimmomatic complete!\" " >> $script
 
+#=====do fastqc after trim=====
+echo -e "\n#do fastqc using fastqc for experiment ${code}" >> $script
+echo "nohup sh ${sh_prefix}clean.sh >${log_prefix}clean.log 2>&1 &" >> $script
+echo "echo \"\`date\` ${cdoe} submit successfully, pid is \$? \"" >> $script
+
 #=====bwa_mem=====
 echo -e "\n#do alignment using bwa mem for experiment ${code}" >> $script
 echo "sh ${sh_prefix}bwa_mem.sh > ${log_prefix}bwa_mem.log 2>&1 " >> $script
@@ -75,4 +80,4 @@ echo "sh ${sh_prefix}macs.sh > ${log_prefix}macs.log 2>&1" >>$script
 echo "echo \" \`date\` ${code} macs complete!\" " >> $script
 
 #output complete info
-echo -e "=====Script generated at: ${script} \n"
+echo ">>>>>Script generated at: ${script}"

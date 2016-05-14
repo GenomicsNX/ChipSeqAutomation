@@ -49,4 +49,4 @@ then
 fi
 
 #output complete info
-echo -e ">>>>>Script generated at: ${script} \n"
+echo ">>>>>Script generated at: ${script}"

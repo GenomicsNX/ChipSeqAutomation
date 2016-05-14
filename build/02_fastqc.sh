@@ -5,7 +5,10 @@
 #usage  do quality control assessment for fastq file, using fastq
 #===============================================================
 
+#init parameter
 work=`pwd`
+
+#check passing arguments
 if  [ $# -lt 5 ]
 then
 	echo 'Usage: sh build_fastqc.sh [code] [treatment 1] [treatment 2] [control 1] [control 2]'
@@ -56,4 +59,4 @@ then
 fi
 
 #output complete info
-echo -e ">>>>>Script generate at: ${script} \n"
+echo ">>>>>Script generated at: ${script}"

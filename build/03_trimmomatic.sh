@@ -42,13 +42,19 @@ param_t="ILLUMINACLIP:${adapter_t}:2:30:10 $param"
 param_c="ILLUMINACLIP:${adapter_c}:2:30:10 $param"
 
 #paramter for trimmomatic
-exe=${work}/software/${trimmomatic}
-in=${work}/input/${code}
-out=${work}/output/${trim}
+exe=${work}/${dir_exe}/${trimmomatic}
+in=${work}/${dir_in}/${code}
+out=${work}/${dir_out}/${trim}
 
 #if out directory not exist, create one
 if [ ! -e $out ]
 then mkdir -p $out
+fi
+
+#if fastqc directory not exist, create one
+if [ ! -e ${fq_out} ]
+then
+	mkdir -p ${fq_out}
 fi
 
 #generate script
@@ -56,6 +62,7 @@ script=${work}/script/${code}_trimmomatic.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #treatment
+echo -e "\n#do trimmomatic first, then do fastqc again for ${code} treatment" >> $script
 if [ "$t2"  = 'NULL' ]
 then
 	#se mode 
@@ -66,12 +73,13 @@ else
 fi
 
 #control
+echo -e "\n#do trimmomatic first, then do fastqc again for ${code} control" >> $script
 if [ "$c1" != 'NULL' ]
 then
 	if [ "$c2" = 'NULL' ]
 	then
-       		 #se mode 
-       		 echo "$java -jar $exe SE -threads $thread $phred ${in}/$c1 ${out}/${code}_c.fastq ${param_c} " >> $script
+       		 #se mode
+		echo "$java -jar $exe SE -threads $thread $phred ${in}/$c1 ${out}/${code}_c.fastq ${param_c} " >> $script
 	else 
 		#pe mode
        		 echo "$java -jar $exe PE -threads $thread $phred ${in}/$c1 ${in}/$c2 ${out}/${code}_c1_paired.fastq ${out}/${code}_c1_unpaired.fastq ${out}/${code}_c2_paired.fastq ${out}/${code}_c2_unpaired.fastq ${param_c} ">> $script
@@ -79,4 +87,4 @@ then
 fi
 
 #output complete info	
-echo -e ">>>>>Script generated at: $script \n"
+echo ">>>>>Script generated at: $script"

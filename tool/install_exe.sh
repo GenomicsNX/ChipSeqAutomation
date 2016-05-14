@@ -22,7 +22,7 @@ cd ${work}
 #samtools
 tar -jxvf ${path_pkg}/${upk_samtools}.tar.bz2 -C ${path_sw}  --overwrite
 cd ${path_sw}/${upk_samtools}
-make
+make prefix=${path_sw}/${upk_samtools} install
 cd ${work}
 
 #trimmomatic

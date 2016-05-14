@@ -14,6 +14,10 @@ echo " `date` zw_h1 qc_out complete!"
 sh /home/jwman/chipseq-automation/script/zw_h1_trimmomatic.sh > /home/jwman/chipseq-automation/log/zw_h1_trimmomatic.log 2>&1
 echo " `date` zw_h1 trimmomatic complete!" 
 
+#do fastqc using fastqc for experiment zw_h1
+nohup sh /home/jwman/chipseq-automation/script/zw_h1_clean.sh >/home/jwman/chipseq-automation/log/zw_h1_clean.log 2>&1 &
+echo "`date`  submit successfully, pid is $? "
+
 #do alignment using bwa mem for experiment zw_h1
 sh /home/jwman/chipseq-automation/script/zw_h1_bwa_mem.sh > /home/jwman/chipseq-automation/log/zw_h1_bwa_mem.log 2>&1 
 echo " `date` zw_h1 bwa_mem complete!" 

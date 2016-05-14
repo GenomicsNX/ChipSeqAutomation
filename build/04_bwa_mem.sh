@@ -79,4 +79,4 @@ else
 fi
 
 #complete
-echo -e ">>>>>Script generated at: ${script} \n"
+echo ">>>>>Script generated at: ${script}"

@@ -1,13 +1,29 @@
 #!/bin/bash
+#title  main.sh
+#author j1angvei
+#date   20160412
+#usage  entry of the toolkit, install software, check config, generate scripts, run jobs
+#==========================================================================================
 
 #init essential parameters
 work=`pwd`
 
-#remove last running output.
-#rm pid/* log/* script/*
-
 #import directory to retrieve genome files
 source config/directory.conf
+source config/executable.conf
+
+#check java, python, perl, R avaliable
+
+
+#accpet arguments, install all software
+count_sw=`ls -l ${work}/${dir_exe} | wc -l`
+if [ ${count_sw} -eq 1 ]
+then
+	sh ${work}/${dir_tool}/${sh_install_exe} >${work}/${dir_log}/install_exe.log 2>&1
+	echo "<<<<<All softwares installed successfully at ${work}/${dir_exe}"
+else
+	echo "<<<<<All softwares already are installed, continue!"
+fi
 
 #create bakup file of config/genome.conf and store header
 origin_genome=${work}/config/genome.conf
@@ -98,6 +114,9 @@ do
 	#generate trimmomatic script, placeholder are stored in config/preference.conf
 	sh build/03_trimmomatic.sh $code $t1 $t2 $c1 $c2
 	
+	#generate fastqc script, for already trimmed fastq file	
+	sh build/04_clean_fq.sh ${code} $pe
+
 	#generate bwa_mem script
 	sh build/04_bwa_mem.sh $code $species $pe $control
 
@@ -125,15 +144,15 @@ e_codes=${e_codes% *}
 sh build/99_run_experiments.sh ${e_codes}
 
 #output init compete info
-echo -e "\n<<<<<All scripts successfully generated at ${work}/${dir_sh}"
+echo "<<<<<All scripts successfully generated at ${work}/${dir_sh}"
 
 #start running genome relevant scripts
-echo -e "\n-----start genome relevant jobs"
-sh ${work}/${dir_sh}/00_run_genomes.sh
+echo "-----start genome relevant jobs"
+#sh ${work}/${dir_sh}/00_run_genomes.sh
 
 #start running genome relevant scripts
-echo -e "\n-----start experiments relevant jobs"
-sh ${work}/${dir_sh}/01_run_experiments.sh
+echo "-----start experiments relevant jobs"
+#sh ${work}/${dir_sh}/01_run_experiments.sh
 
 #output all work complet info
-echo -e "\n<<<<<All jobs completed! Results in ${work}/${dir_out}.\n"
+echo "<<<<<All jobs completed! Results in ${work}/${dir_out}."

@@ -49,5 +49,4 @@ duration=${sleep_time}
 echo "sh ${work}/${dir_tool}/${sh_update} $pids ${duration}" >> $script
 
 #echo complete info
-echo -e "======Script generated at $script \n"
-
+echo ">>>>>Script generated at: $script"
