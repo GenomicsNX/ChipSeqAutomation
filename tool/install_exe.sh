@@ -12,7 +12,7 @@ unzip -o ${path_pkg}/${upk_fastqc}*.zip -d ${path_sw}
 cd ${path_sw}/${upk_fastqc}
 chmod 755 fastqc
 cd ${work}
-exit
+
 #bwa
 tar -jxvf ${path_pkg}/${upk_bwa}.tar.bz2 -C ${path_sw}  --overwrite
 cd ${path_sw}/${upk_bwa}
@@ -29,7 +29,7 @@ cd ${work}
 unzip -o ${path_pkg}/${upk_trim}.zip -d ${path_sw}
 
 #macs
-tar -zxvf ${path_pkg}/${upk_macs}.tar.gz -d ${path_sw}  --overwrite
+tar -zxvf ${path_pkg}/${upk_macs}-1.tar.gz -d ${path_sw}  --overwrite
 cd ${path_sw}/${upk_macs}
 $python setup.py install --prefix ${path_sw}/${upk_macs}
 cd ${work}
