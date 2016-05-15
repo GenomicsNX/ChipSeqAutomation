@@ -35,6 +35,8 @@ prefix=${out}/${code}
 if [ ! -e $out ]
 then mkdir -p $out
 fi
+#remove already existed results
+rm -rf ${out}/${code}*
 
 #generate script
 script=${work}/${dir_sh}/${code}_macs.sh

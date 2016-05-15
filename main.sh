@@ -14,6 +14,8 @@ source config/executable.conf
 
 #check java, python, perl, R avaliable
 
+#remove old logs, pids, scripts
+rm -f ${dir_log}/* ${dir_pid}/* ${dir_sh}/*
 
 #accpet arguments, install all software
 count_sw=`ls -l ${work}/${dir_exe} | wc -l`
@@ -146,9 +148,7 @@ sh build/99_run_experiments.sh ${e_codes}
 #output init compete info
 echo "<<<<<All scripts successfully generated at ${work}/${dir_sh}"
 
-#do test here, when running, comment next line #exit
-#exit
-
+exit
 #start running genome relevant scripts
 echo "-----start genome relevant jobs"
 sh ${work}/${dir_sh}/00_run_genomes.sh
