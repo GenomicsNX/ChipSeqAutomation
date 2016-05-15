@@ -18,7 +18,7 @@ function update(){
 	
 	#echo job status and job statistic to stout
 	all_pids=`grep -v '^$' $pids | tr '\n' ',' `
-	echo -ne "---Check Times:$count;---Job Numbers:${num};---Job Pids:${all_pids%,*};---Check Again:${sleep_time}.\r"
+	echo -ne "::::::::::---Check Times:$count;---Job Numbers:${num};---Job Pids:${all_pids%,*};---Check Again:${sleep_time}.::::::::::\r"
 	
 	#create bak file of pid file to store running jobs' pid after checking status
 	bak=${pids}.bak

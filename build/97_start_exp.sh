@@ -53,7 +53,7 @@ echo "echo \" \`date\` ${code} trimmomatic complete!\" " >> $script
 #=====do fastqc after trim=====
 echo -e "\n#do fastqc using fastqc for experiment ${code}" >> $script
 echo "nohup sh ${sh_prefix}clean.sh >${log_prefix}clean.log 2>&1 &" >> $script
-echo "echo \"\`date\` ${cdoe} submit successfully, pid is \$? \"" >> $script
+echo "echo \"\`date\` ${cdoe} submit successfully, pid is \$! \"" >> $script
 
 #=====bwa_mem=====
 echo -e "\n#do alignment using bwa mem for experiment ${code}" >> $script

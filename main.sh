@@ -148,11 +148,13 @@ echo "<<<<<All scripts successfully generated at ${work}/${dir_sh}"
 
 #start running genome relevant scripts
 echo "-----start genome relevant jobs"
-#sh ${work}/${dir_sh}/00_run_genomes.sh
+sh ${work}/${dir_sh}/00_run_genomes.sh
+echo -e "\n<<<<<All genome relevant jobs are done!"
 
 #start running genome relevant scripts
 echo "-----start experiments relevant jobs"
-#sh ${work}/${dir_sh}/01_run_experiments.sh
+sh ${work}/${dir_sh}/01_run_experiments.sh
+echo -e "\n<<<<<All experiment specific jobs are done!"
 
 #output all work complet info
-echo "<<<<<All jobs completed! Results in ${work}/${dir_out}."
+echo -e "\n<<<<<All jobs completed! Results in ${work}/${dir_out}."
