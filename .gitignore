@@ -16,3 +16,8 @@
 #ignore files in SOFTWARE but not in sub folder PACKAGE
 /software/*
 !/software/package/
+
+#ignore generated scripts
+/script/*
+!/script/.gitkeep
+

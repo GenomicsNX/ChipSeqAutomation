@@ -19,14 +19,17 @@ rm -f ${dir_log}/* ${dir_pid}/* ${dir_sh}/*
 
 #accpet arguments, install all software
 count_sw=`ls -l ${work}/${dir_exe} | wc -l`
-if [ ${count_sw} -le 2 ]
+
+#7 means a header, a package dir and fastqc, bwa, trimmomatic, samtools, MACS.
+if [ ${count_sw} -lt 7 ]
 then
+	echo ">>>>>Start install all software, please wait..."
 	sh ${work}/${dir_tool}/${sh_install_exe} >${work}/${dir_log}/install_exe.log 2>&1
 	echo "<<<<<All softwares installed successfully at ${work}/${dir_exe}"
 else
 	echo "<<<<<All softwares already are installed, continue!"
 fi
-exit
+
 #create bakup file of config/genome.conf and store header
 origin_genome=${work}/config/genome.conf
 bak_genome=${origin_genome}.bak
