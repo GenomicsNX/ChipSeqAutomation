@@ -1,2 +1,0 @@
-/home/jwman/chipseq-automation/software/samtools-1.3.1/bin/samtools sort /home/jwman/chipseq-automation/output/sam2bam/czl_t.bam --threads 5 -o /home/jwman/chipseq-automation/output/bam_sort/czl_t_sorted.bam 
-/home/jwman/chipseq-automation/software/samtools-1.3.1/bin/samtools sort /home/jwman/chipseq-automation/output/sam2bam/czl_c.bam --threads 5 -o /home/jwman/chipseq-automation/output/bam_sort/czl_c_sorted.bam 

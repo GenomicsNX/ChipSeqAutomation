@@ -19,14 +19,14 @@ rm -f ${dir_log}/* ${dir_pid}/* ${dir_sh}/*
 
 #accpet arguments, install all software
 count_sw=`ls -l ${work}/${dir_exe} | wc -l`
-if [ ${count_sw} -eq 1 ]
+if [ ${count_sw} -le 2 ]
 then
 	sh ${work}/${dir_tool}/${sh_install_exe} >${work}/${dir_log}/install_exe.log 2>&1
 	echo "<<<<<All softwares installed successfully at ${work}/${dir_exe}"
 else
 	echo "<<<<<All softwares already are installed, continue!"
 fi
-
+exit
 #create bakup file of config/genome.conf and store header
 origin_genome=${work}/config/genome.conf
 bak_genome=${origin_genome}.bak
@@ -148,7 +148,6 @@ sh build/99_run_experiments.sh ${e_codes}
 #output init compete info
 echo "<<<<<All scripts successfully generated at ${work}/${dir_sh}"
 
-exit
 #start running genome relevant scripts
 echo "-----start genome relevant jobs"
 sh ${work}/${dir_sh}/00_run_genomes.sh
