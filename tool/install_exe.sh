@@ -1,10 +1,22 @@
+#!/bin/bash
+#title  install_exe.sh
+#author j1angvei
+#date   20160514
+#usage  before analysis begin, install all necessary softwares.
+#==========================================================================================
+
+#init parameter
 work=`pwd`
+
+#import configurations
 source config/directory.conf
 source config/preference.conf
-#install macs needs python
 source config/executable.conf
 
+#where to find all software package 
 path_pkg=${work}/${dir_exe}/${dir_pkg}
+
+#diecetory to install software
 path_sw=${work}/${dir_exe}
 
 #fastqc

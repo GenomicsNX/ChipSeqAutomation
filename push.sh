@@ -1,4 +1,11 @@
 #!/bin/bash
+#title  push.sh
+#author j1angvei
+#date   20160414
+#usage  commit and push all changes to github
+#==========================================================================================
+
+#!/bin/bash
 if [ $# -lt 1 ]; then
 	echo 'you forgot to input commit description!'
 	exit
