@@ -5,9 +5,6 @@
 #usage  entry of the toolkit, install software, check config, generate scripts, run jobs
 #==========================================================================================
 
-#echo start time
-echo "`date` *****Start Analysis using ChIP-Seq Automation by j1angvei..."
-
 #init essential parameters
 work=`pwd`
 
@@ -18,7 +15,7 @@ source config/executable.conf
 #check java, python, perl, R avaliable
 
 #remove old logs, pids, scripts
-#rm -f ${dir_log}/* ${dir_pid}/* ${dir_sh}/*
+rm -f ${dir_log}/* ${dir_pid}/* ${dir_sh}/*
 
 #accpet arguments, install all software
 count_sw=`ls -l ${work}/${dir_exe} | wc -l`
