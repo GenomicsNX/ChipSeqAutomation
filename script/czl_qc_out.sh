@@ -1,14 +1,14 @@
 
 #handle treatment data for czl experiment
-/usr/java/latest/bin/java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/T1_fastqc.zip
+java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/T1_fastqc.zip
 tail -n +3 /home/jwman/chipseq-automation/output/qc/czl/T1_fastqc.txt > /home/jwman/chipseq-automation/output/qc/czl/t_adapter.fa
-/usr/java/latest/bin/java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/T2_fastqc.zip
+java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/T2_fastqc.zip
 tail -n +3 /home/jwman/chipseq-automation/output/qc/czl/T2_fastqc.txt >> /home/jwman/chipseq-automation/output/qc/czl/t_adapter.fa
 
 #handle control data for czl experiment
-/usr/java/latest/bin/java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/C1_fastqc.zip
+java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/C1_fastqc.zip
 tail -n +3 /home/jwman/chipseq-automation/output/qc/czl/C1_fastqc.txt >/home/jwman/chipseq-automation/output/qc/czl/c_adapter.fa
-/usr/java/latest/bin/java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/C2_fastqc.zip
+java -jar /home/jwman/chipseq-automation/tool/fastqc-output-1.0-SNAPSHOT.jar /home/jwman/chipseq-automation/output/qc/czl/C2_fastqc.zip
 tail -n +3 /home/jwman/chipseq-automation/output/qc/czl/C2_fastqc.txt >> /home/jwman/chipseq-automation/output/qc/czl/c_adapter.fa 
 
 #replace placeholder in /home/jwman/chipseq-automation/script/czl_trimmomatic.sh

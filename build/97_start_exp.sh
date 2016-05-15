@@ -72,12 +72,17 @@ echo "echo \" \`date\` ${code} bam_sort complete!\" " >> $script
 
 #=====macs=====
 echo -e "\n#do peak calling using macs for experiment ${code} " >> $script
+
 #add environment variable to $PATH as macs requested.
 path_macs=${work}/${dir_exe}/${upk_macs}
-echo "export PYTHONPATH=${path_macs}/lib/python2.7/site-packages:\$PYTHONPATH" >> $script
+python_v=`$python -V 2>&1`
+python_v=${python_v:7:3}
+echo "export PYTHONPATH=${path_macs}/lib/python${python_v}/site-packages:\$PYTHONPATH" >> $script
 echo "export PATH=${path_macs}/bin:\$PATH" >> $script
+
+#write command into script
 echo "sh ${sh_prefix}macs.sh > ${log_prefix}macs.log 2>&1" >>$script
 echo "echo \" \`date\` ${code} macs complete!\" " >> $script
 
-#output complete info
+#=====All done======
 echo ">>>>>Script generated at: ${script}"

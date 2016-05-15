@@ -62,7 +62,7 @@ script=${work}/script/${code}_trimmomatic.sh
 rm -rf $script && touch $script && chmod 751 $script
 
 #treatment
-echo -e "\n#do trimmomatic first, then do fastqc again for ${code} treatment" >> $script
+echo -e "\n#do fliter job using trimmomatic for ${code} treatment" >> $script
 if [ "$t2"  = 'NULL' ]
 then
 	#se mode 
@@ -73,9 +73,9 @@ else
 fi
 
 #control
-echo -e "\n#do trimmomatic first, then do fastqc again for ${code} control" >> $script
 if [ "$c1" != 'NULL' ]
 then
+	echo -e "\n#do filter job using trimmomatic for ${code} control" >> $script
 	if [ "$c2" = 'NULL' ]
 	then
        		 #se mode

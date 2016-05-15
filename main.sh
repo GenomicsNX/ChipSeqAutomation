@@ -146,6 +146,9 @@ sh build/99_run_experiments.sh ${e_codes}
 #output init compete info
 echo "<<<<<All scripts successfully generated at ${work}/${dir_sh}"
 
+#do test here, when running, comment next line #exit
+#exit
+
 #start running genome relevant scripts
 echo "-----start genome relevant jobs"
 sh ${work}/${dir_sh}/00_run_genomes.sh
