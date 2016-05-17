@@ -45,3 +45,11 @@ tar -zxvf ${path_pkg}/${upk_macs}-1.tar.gz -C ${path_sw}  --overwrite
 cd ${path_sw}/${upk_macs}
 $python setup.py install --prefix ${path_sw}/${upk_macs}
 cd ${work}
+
+#homer
+homer=${path_sw}/${upk_homer}
+unzip -o ${path_pkg}/${upk_homer}*.zip -d ${homer}
+cp ${path_pkg}/homer-config.txt ${homer}
+cd ${homer}
+${perl} ${homer}/configureHomer.pl -make
+cd ${work}
