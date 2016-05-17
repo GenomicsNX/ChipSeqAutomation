@@ -45,6 +45,7 @@ function update(){
 	else 
 		#pids file is empty, all jobs are done.
 		rm -rf $bak
+		echo -e "\n<<<<<All jobs in $pids are done, continue..."
 		return 1
 	fi
 	

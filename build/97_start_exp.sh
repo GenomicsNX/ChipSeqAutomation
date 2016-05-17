@@ -47,6 +47,8 @@ echo "echo \" \`date\` >>>>>${code} qc_out START!\"" >> $script
 echo "sh ${sh_prefix}qc_out.sh > ${log_prefix}qc_out.log 2>&1" >> $script
 echo "echo \" \`date\` <<<<<${code} qc_out FINISH!\" " >> $script
 
+#--------------------------------------------------------------------------------------to be deleted--------------
+exit
 #=====trimmomatic======
 echo -e "\n#do trim work using trimmomatic for experiment ${code}" >> $script
 echo "echo \" \`date\` >>>>>${code} trimmomatic START!\"" >> $script

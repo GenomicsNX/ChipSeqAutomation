@@ -23,11 +23,15 @@ source config/preference.conf
 #accept all input parameters
 code=$1
 thread=${thread_num}
+t1=$2
+t2=$3
+c1=$4
+c2=$5
 
 #define parameters fastqc needs
-in=${work}/input/${code}
-exe=${work}/software/${fastqc}
-out=${work}/output/${qc}/${code}
+in=${work}/${dir_in}
+exe=${work}/${dir_exe}/${fastqc}
+out=${work}/${dir_out}/${qc}
 
 #if out directory not exist, create one
 if [ ! -e $out ]
@@ -35,28 +39,25 @@ then mkdir -p $out
 fi
 
 #generate script
-script=${work}/script/${code}_fastqc.sh
+script=${work}/${dir_sh}/${code}_fastqc.sh
 rm -rf $script && touch $script && chmod 751 $script
 
-#treatment 1
-echo "$exe -o $out -t $thread ${in}/$2 " >> $script
+#write info into script
+for fq in $t1 $t2 $c1 $c2
+do
+	# fastq file not exist, skip this
+	if [ "$fq" = 'NULL' ]; then
+		continue
+	fi
 
-#treatment 2
-if [ $3 != 'NULL' ] 
-then
-	echo "$exe -o $out -t $thread ${in}/$3 " >> $script
-fi
-#control 1
-if [ $4 != 'NULL' ] 
-then
-        echo "$exe -o $out -t $thread ${in}/$4 " >> $script
-fi
-
-#control 2
-if [ $5 != 'NULL' ] 
-then
-        echo "$exe -o $out -t $thread ${in}/$5 " >> $script
-fi
+	#fastq file exists, do qc depends on if qc already be done!
+	echo -e "\n#do quality control for ${in}/${fq} " >> $script
+	if [ -e ${out}/${fq%.*}_fastqc.zip -a -e ${out}/${fq%.*}_fastqc.html ]; then
+		echo "#${in}/${fq} already done quality control, skip this." >> $script
+	else
+		echo "$exe -o $out -t $thread ${in}/${fq}" >> $script
+	fi	
+done
 
 #output complete info
 echo ">>>>>Script generated at: ${script}"

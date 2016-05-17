@@ -1,11 +1,13 @@
 #ingore genome, input , output
 /genome/*
-!/genome/README.txt
-/input/*/
+!/genome/.gitkeep
+/input/*
+/input/.gitkeep
 /output/*/
+/test/
 
 #ignore files with specified types
-*.nohup
+*.out
 *.log
 *.pids
 
@@ -21,3 +23,5 @@
 /script/*
 !/script/.gitkeep
 
+#ignore local bak file
+*.bak

@@ -70,7 +70,7 @@ do
 		
 done
 
-#write genome  bak info back into genome file and delete bak genome file
+#write genome bak info back into genome file and delete bak genome file
 cat ${bak_genome} > ${origin_genome} && rm -f ${bak_genome}
 
 #generate bwa idx script for all genome

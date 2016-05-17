@@ -22,65 +22,86 @@ source config/preference.conf
 
 #accept input parameter
 code=$1
-qc_prefix=${work}/${dir_out}/${qc}/${code}
-sh_prefix=${work}/${dir_sh}/${code}
+t1=$2
+t2=$3
+c1=$4
+c2=$5
+
+#assebmle parameters to use
+in=${work}/${dir_out}/${qc}
+out=${work}/${dir_out}/${dir_fa}
 jar=${work}/${dir_tool}/${jar_fastqc}
 
-#assemble commom file name prefix(absolute path), such as *fastqc.zip, *fastqc.txt,*fastqc.fa
-t1=${qc_prefix}/${2%.*}_fastqc
-t2=${qc_prefix}/${3%.*}_fastqc
-c1=${qc_prefix}/${4%.*}_fastqc
-c2=${qc_prefix}/${5%.*}_fastqc
-
-#create file to store overrepresented reads info
-t_fa=${qc_prefix}/t_adapter.fa
-c_fa=${qc_prefix}/c_adapter.fa
-rm -f ${t_fa} ${c_fa} && touch ${t_fa} ${c_fa}
+#if output directory not exist, create one
+if [ ! -e $out ]; then
+	mkdir -p $out
+fi
 
 #generate script
 script=${work}/${dir_sh}/${code}_qc_out.sh
 rm -f $script && touch $script && chmod 751 $script
 
-#write info into script
-echo -e "\n#handle treatment data for ${code} experiment" >> $script
+#deal with input data, using $jar handle zip input and generate txt output for every fastq file's qc result
+for fq in $t1 $t2 $c1 $c2
+do
+	#fastq file not exist, skip it
+	if [ "$fq" = 'NULL' ]; then
+		continue
+	fi
 
-#get info from treatment 1
-echo "$java -jar $jar ${t1}.zip" >> $script
-echo -e "tail -n +3 ${t1}.txt > ${t_fa}" >> $script
+	#handle qc output， generate fa file and txt file
+	prefix=${fq%.*}
+	zip=${in}/${prefix}_fastqc.zip
+	txt=${out}/${prefix}.txt
 
-#get info from treatment 2
-if [ "$3" != 'NULL' ]
-then
-        echo "$java -jar $jar ${t2}.zip" >> $script
-        echo "tail -n +3 ${t2}.txt >> ${t_fa}" >> $script
+	#write command into script depends if txt file already exists.
+	echo -e "\n#get qc result from $zip" >> $script
+	if [ -e $txt ]; then
+		echo -e "\n#result file $txt already exists, skip this one." >> $script
+	else
+		echo "$java -jar $jar $zip $txt" >> $script
+	fi
+done
+
+#create fa file store overrepresented reads
+t_fa=${out}/${code}_t.fa
+c_fa=${out}/${code}_c.fa
+rm -f $t_fa $c_fa && touch $t_fa $c_fa
+
+#write info into t_fa
+echo -e "\n#get overrepresented reads from $t1 and $t2" >> $script
+#get information from $t1
+echo "tail -n +3 ${out}/${t1%.*}.txt > ${t_fa}" >> $script
+#get overrepresented reads from $t2
+if [ "$t2" != 'NULL' ]; then
+       	echo "tail -n +3 ${out}/${t2%.*}.txt >> ${t_fa}" >> $script
 fi
 
-#get info from control 1
-if [ "$4" != 'NULL' ]
-then
-        echo -e "\n#handle control data for ${code} experiment" >> $script
-        echo "$java -jar $jar ${c1}.zip" >> $script
-	echo "tail -n +3 ${c1}.txt >${c_fa}" >> $script
-#get info from control 2
-        if [ "$5" != 'NULL' ]
-        then
-                echo "$java -jar $jar ${c2}.zip" >> $script
-		echo -e "tail -n +3 ${c2}.txt >> ${c_fa} " >> $script
-        fi
 
+#write info into $c_fa
+echo -e "\n#get overrepresented reads from $c1 and $c2" >> $script
+#check if control data exists
+if [ "$c1" != 'NULL' ]; then
+	#get information from $c1
+	echo "tail -n +3 ${out}/${c1%.*}.txt > ${c_fa}" >> $script
+	#get information from $c2 if exist
+	if [ "$c2" != "NULL" ]; then
+		echo "tail -n +3 ${out}/${c2%.*}.txt >> ${c_fa}" >> $script
+	fi
 fi
-
-#replace placeholder in trimmomatic.sh
-echo -e "\n#replace placeholder in ${sh_prefix}_trimmomatic.sh" >> $script
-
-#get result using to replace placeholder in trimmomatic.sh
-echo "phred=\`head -n 1 ${t1}.txt\`" >> $script
-echo "min_len=\`head -n 2 ${t1}.txt |tail -n 1\`" >> $script
 
 #create backup file of trim script 
-origin_trim=${sh_prefix}_trimmomatic.sh
-bak_trim=${sh_prefix}_trimmomatic.sh.bak
+echo -e "\n#create ${code} bak file of trimmomatic.sh" >> $script
+origin_trim=${work}/${dir_sh}/${code}_trimmomatic.sh
+bak_trim=${origin_trim}.bak
 echo "cat ${origin_trim} > ${bak_trim}" >> $script
+
+#replace placeholder in trimmomatic.sh
+echo -e "\n#replace placeholder in ${origin_trim}" >> $script
+
+#get result using to replace placeholder in trimmomatic.sh
+echo "phred=\`head -n 1 ${out}/${t1%.*}.txt\`" >> $script
+echo "min_len=\`head -n 2 ${out}/${t1%.*}.txt |tail -n 1\`" >> $script
 
 #echo content into script to repleace placeholder
 echo "sed -e \"s/${ph_phred}/\${phred}/g\" -e \"s/${ph_min_len}/\${min_len}/g\" ${bak_trim} > ${origin_trim}" >> $script
@@ -101,4 +122,3 @@ echo -e "\n#remove trimmomatic.sh.bak file" >> $script
 echo "rm -f ${bak_trim}" >> $script
 
 echo -e "\necho \">>>>>Insert qc result into ${code} experiment complete!\" \n" >> $script
-

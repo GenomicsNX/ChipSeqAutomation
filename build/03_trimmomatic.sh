@@ -36,25 +36,19 @@ phred=${ph_phred}
 
 #parameter to run script
 param="LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 MINLEN:${min_len}"
-adapter_t=${work}/${dir_out}/${qc}/${code}/t_adapter.fa
-adapter_c=${work}/${dir_out}/${qc}/${code}/c_adapter.fa
+adapter_t=${work}/${dir_out}/${dir_fa}/${code}_t.fa
+adapter_c=${work}/${dir_out}/${dir_fa}/${code}_c.fa
 param_t="ILLUMINACLIP:${adapter_t}:2:30:10 $param"
 param_c="ILLUMINACLIP:${adapter_c}:2:30:10 $param"
 
 #paramter for trimmomatic
 exe=${work}/${dir_exe}/${trimmomatic}
-in=${work}/${dir_in}/${code}
+in=${work}/${dir_in}
 out=${work}/${dir_out}/${trim}
 
 #if out directory not exist, create one
 if [ ! -e $out ]
 then mkdir -p $out
-fi
-
-#if fastqc directory not exist, create one
-if [ ! -e ${fq_out} ]
-then
-	mkdir -p ${fq_out}
 fi
 
 #generate script
