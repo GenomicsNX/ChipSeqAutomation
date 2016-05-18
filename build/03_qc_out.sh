@@ -9,9 +9,9 @@
 work=`pwd`
 
 #test if input parameters are correct
-if [ $# -lt 5 ]
+if [ $# -lt 3 ]
 then
-        echo "Usage: sh 03_qc_out.sh [code] [treatment 1] [treatment 2] [control 1] [control 2] "
+        echo "Usage: sh 03_qc_out.sh [code] [fastq R1] [fastq R2] "
         exit
 fi
 
@@ -24,8 +24,6 @@ source config/preference.conf
 code=$1
 t1=$2
 t2=$3
-c1=$4
-c2=$5
 
 #assebmle parameters to use
 in=${work}/${dir_out}/${qc}
@@ -42,10 +40,10 @@ script=${work}/${dir_sh}/${code}_qc_out.sh
 rm -f $script && touch $script && chmod 751 $script
 
 #deal with input data, using $jar handle zip input and generate txt output for every fastq file's qc result
-for fq in $t1 $t2 $c1 $c2
+for fq in $t1 $t2
 do
 	#fastq file not exist, skip it
-	if [ "$fq" = 'NULL' ]; then
+	if [ "$fq" = 'F' ]; then
 		continue
 	fi
 
@@ -64,35 +62,21 @@ do
 done
 
 #create fa file store overrepresented reads
-t_fa=${out}/${code}_t.fa
-c_fa=${out}/${code}_c.fa
-rm -f $t_fa $c_fa && touch $t_fa $c_fa
+t_fa=${out}/${code}.fa
+rm -f $t_fa && touch $t_fa 
 
 #write info into t_fa
 echo -e "\n#get overrepresented reads from $t1 and $t2" >> $script
 #get information from $t1
 echo "tail -n +3 ${out}/${t1%.*}.txt > ${t_fa}" >> $script
 #get overrepresented reads from $t2
-if [ "$t2" != 'NULL' ]; then
+if [ "$t2" != 'F' ]; then
        	echo "tail -n +3 ${out}/${t2%.*}.txt >> ${t_fa}" >> $script
-fi
-
-
-#write info into $c_fa
-echo -e "\n#get overrepresented reads from $c1 and $c2" >> $script
-#check if control data exists
-if [ "$c1" != 'NULL' ]; then
-	#get information from $c1
-	echo "tail -n +3 ${out}/${c1%.*}.txt > ${c_fa}" >> $script
-	#get information from $c2 if exist
-	if [ "$c2" != "NULL" ]; then
-		echo "tail -n +3 ${out}/${c2%.*}.txt >> ${c_fa}" >> $script
-	fi
 fi
 
 #create backup file of trim script 
 echo -e "\n#create ${code} bak file of trimmomatic.sh" >> $script
-origin_trim=${work}/${dir_sh}/${code}_trimmomatic.sh
+origin_trim=${work}/${dir_sh}/${code}_trim.sh
 bak_trim=${origin_trim}.bak
 echo "cat ${origin_trim} > ${bak_trim}" >> $script
 
@@ -107,15 +91,12 @@ echo "min_len=\`head -n 2 ${out}/${t1%.*}.txt |tail -n 1\`" >> $script
 echo "sed -e \"s/${ph_phred}/\${phred}/g\" -e \"s/${ph_min_len}/\${min_len}/g\" ${bak_trim} > ${origin_trim}" >> $script
 
 #remove ILLUMINACLIP parameter from trimmomaitc.sh if fa file not valid.
-for fa in ${t_fa} ${c_fa}
-do
-	echo -e "\n#remove ILLUMINACLIP parameter from trimmomaitc.sh if $fa file not valid." >> $script
-	echo -e "if [ -s "$fa" ] \nthen" >> $script
-	echo -e "	echo \"there are overrepresented reads in file, no need to delete parameters from ${origin_trim}\" \nelse" >> $script
-	echo "	cat ${origin_trim} > ${bak_trim}" >> $script
-	echo "	sed 's/ILLUMINACLIP.*${fa##*/}:2:30:10 //g' ${bak_trim} > ${origin_trim}" >> $script
-	echo "fi" >> $script
-done
+echo -e "\n#remove ILLUMINACLIP parameter from trimmomaitc.sh if $fa file not valid." >> $script
+echo -e "if [ -s "$t_fa" ]; then" >> $script
+echo -e "	echo \"$t_fa not empty,do not delete ILLUMINACLIP from ${origin_trim}\" \nelse" >> $script
+echo "	cat ${origin_trim} > ${bak_trim}" >> $script
+echo "	sed 's/ILLUMINACLIP.*:2:30:10 //g' ${bak_trim} > ${origin_trim}" >> $script
+echo "fi" >> $script
 
 #remove trimmomatic.sh.bak
 echo -e "\n#remove trimmomatic.sh.bak file" >> $script

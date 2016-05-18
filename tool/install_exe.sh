@@ -53,3 +53,7 @@ cp ${path_pkg}/homer-config.txt ${homer}
 cd ${homer}
 ${perl} ${homer}/configureHomer.pl -make
 cd ${work}
+
+#qualimap
+unzip -o ${path_pkg}/${upk_qualimap}.zip -d ${path_sw}
+
