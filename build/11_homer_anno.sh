@@ -46,6 +46,9 @@ out=${out}/${code}_annotation.bed
 script=${work}/${dir_sh}/${code}_homer_anno.sh
 rm -rf $script && touch $script && chmod 751 $script
 
+#add homer to environment variable
+echo -e "\n#add homer path into environment variable so homer can work" >> $script
+echo "export PATH=${exe%/*}:\$PATH" >> $script
 
 #add info into script
 echo -e  "\n#do homer annoattion for $code" >> $script

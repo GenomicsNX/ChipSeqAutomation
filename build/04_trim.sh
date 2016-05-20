@@ -32,7 +32,7 @@ phred=${ph_phred}
 
 #parameter to run script
 adapter=${work}/${dir_out}/${dir_fa}/${code}.fa
-param="ILLUMINACLIP:${adapter}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 MINLEN:${min_len}"
+param="ILLUMINACLIP:${adapter}:2:30:10 LEADING:3 TRAILING:3 SLIDINGWINDOW:4:15 AVGQUAL:20 HEADCROP:6 MINLEN:${min_len}"
 
 #paramter for trimmomatic
 exe=${work}/${dir_exe}/${trimmomatic}
@@ -53,10 +53,10 @@ echo -e "\n#do fliter job using trimmomatic for ${code} treatment" >> $script
 if [ "$t2"  = 'NULL' ]
 then
 	#se mode 
-	echo "$java -jar $exe SE -threads $thread $phred ${in}/$t1 ${out}/${code}.fastq ${param} " >> $script
+	echo "$java -Xmx256m -jar $exe SE -threads $thread $phred ${in}/$t1 ${out}/${code}.fastq ${param} " >> $script
 else
 	#pe mode
-	echo "$java -jar $exe PE -threads $thread $phred ${in}/$t1 ${in}/$t2 ${out}/${code}_1_paired.fastq ${out}/${code}_1_unpaired.fastq ${out}/${code}_2_paired.fastq ${out}/${code}_2_unpaired.fastq ${param} " >> $script
+	echo "$java -Xmx256m -jar $exe PE -threads $thread $phred ${in}/$t1 ${in}/$t2 ${out}/${code}_1_paired.fastq ${out}/${code}_1_unpaired.fastq ${out}/${code}_2_paired.fastq ${out}/${code}_2_unpaired.fastq ${param} " >> $script
 fi
 
 #output complete info	

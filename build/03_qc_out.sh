@@ -57,7 +57,7 @@ do
 	if [ -e $txt ]; then
 		echo -e "\n#result file $txt already exists, skip this one." >> $script
 	else
-		echo "$java -jar $jar $zip $txt" >> $script
+		echo "$java -Xmx64m -jar $jar $zip $txt" >> $script
 	fi
 done
 

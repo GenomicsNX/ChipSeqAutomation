@@ -41,6 +41,8 @@ fi
 script=${work}/${dir_sh}/${code}_macs_wig.sh
 rm -rf $script && touch $script && chmod 751 $script
 
+#add macs path to environment so macs can work
+
 #add info into script
 if [ "$pe" = 'T' ]
 then 

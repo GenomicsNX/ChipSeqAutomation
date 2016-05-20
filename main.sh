@@ -17,15 +17,12 @@ source config/executable.conf
 
 #check java, python, perl, R avaliable
 
-#remove old logs, pids, scripts
-rm -f ${dir_log}/*.log ${dir_pid}/* ${dir_sh}/*
-
 #=====install softwares=====
 #check if all softare are installed.
 count_sw=`ls -l ${work}/${dir_exe} | wc -l`
 
 #7 means a header, a package dir and fastqc, bwa, trimmomatic, samtools, MACS.
-if [ ${count_sw} -lt 8 ]
+if [ ${count_sw} -lt 9 ]
 then
 	echo "-----Start install all software, please wait..."
 	sh ${work}/${dir_tool}/${sh_install_exe} >${work}/${dir_log}/install_exe.log 2>&1
@@ -57,17 +54,16 @@ g_codes=`grep -vE '^$|^#' config/genome.conf|awk '{print $1}'|tr '\n' ' '`
 g_codes=${g_codes% *}
 sh build/97_run_genomes.sh ${g_codes}
 
-#=====build script running single experiments======
+#=====build script running experiments======
 e_codes=`grep -vE '^$|^#' config/experiment.conf|awk '{print $1}'|tr '\n' ' '`
 e_codes=${e_codes% *}
 sh build/98_run_singles.sh ${e_codes}
 sh build/99_run_complexes.sh ${e_codes}
-
+exit
 #output init compete info
 echo "<<<<<All scripts successfully generated at ${work}/${dir_sh}"
 
 #=====start running genome=====
-exit
 start running genome relevant scripts
 echo "-----start genome jobs"
 sh ${work}/${dir_sh}/00_run_genomes.sh
